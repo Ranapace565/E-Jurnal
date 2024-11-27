@@ -1,0 +1,1 @@
+Konfigurasi aplikasi, seperti koneksi database

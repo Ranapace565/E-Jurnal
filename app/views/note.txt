@@ -1,0 +1,5 @@
+download file template:
+https://flowbite.com/docs/components/chat-bubble/#outline-file-attachment
+
+export file template:
+https://flowbite.com/docs/plugins/datatables/#export-files

@@ -1,0 +1,1 @@
+Folder publik, menjadi root web server (htdocs)

@@ -1,0 +1,23 @@
+/* // <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 100 to 1000 */
+
+.dm-sansLighter{
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: lighter;
+  font-style: Pnormal;
+}
+
+.dm-sansBold{
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+  }
+
+.dm-sansNormal{
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+}
