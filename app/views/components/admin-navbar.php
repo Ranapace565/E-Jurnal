@@ -27,6 +27,9 @@
                 <li>
                     <a href="/admin/data-kelompok" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Menejemen Tim</a>
                 </li>
+                <li>
+                    <a href="/logout" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Log Out</a>
+                </li>
             </ul>
         </div>
     </div>

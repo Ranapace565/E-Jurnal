@@ -136,7 +136,6 @@ class StudentModel
         }
     }
 
-
     public static function StudentGroup($id)
     {
         try {
@@ -218,10 +217,18 @@ class StudentModel
         }
     }
 
-
     public function createSiswa($nis, $nama, $user, $pass, $prodi)
     {
         try {
+            $akun = new AkunModel;
+            if ($akun::isUserExist($user)) {
+                $_SESSION['flash'] = [
+                    'type' => 'error',
+                    'message' => 'Username ' . $user . ' sudah terdaftar. Tidak dapat menggunakan username yang sama!',
+                ];
+                return false;
+            }
+
             if ($this->isNisExist($nis)) {
                 $_SESSION['flash'] = [
                     'type' => 'error',
@@ -251,7 +258,6 @@ class StudentModel
             return false;
         }
     }
-
 
     public function generateSiswa($nis1, $nis2, $prodi)
     {
@@ -310,6 +316,8 @@ class StudentModel
     private function createStudent($id, $name, $prodi, $user_id)
     {
         try {
+
+
             $stmt = $this->pdo->prepare("INSERT INTO students (id, name, expertise, user_id) VALUES (:id, :name, :expertise, :userid)");
             $stmt->bindParam(':id', $id);
             $stmt->bindParam(':name', $name);
@@ -332,7 +340,6 @@ class StudentModel
             return null; // Default jika error
         }
     }
-
 
     private function generateUsername($first, $last)
     {

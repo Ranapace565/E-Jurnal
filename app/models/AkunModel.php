@@ -30,23 +30,22 @@ class AkunModel
         }
     }
 
-    private function akses($role)
+    public static function isUserExist($user)
     {
-        switch ($role) {
-            case 'admin':
-                header('/admin/data-kelompok');
-                break;
-            case 'siswa':
-                header('/admin/data-siswa');
-                break;
-            case 'dudi':
-                header('/admin/data-dudi');
-                break;
-            case 'mentor':
-                header('/admin/data-mentor');
-                break;
+        try {
+            $db = Database::getConnection();
+            $query = $db->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
+            $query->execute([$user]);
+            return $query->fetchColumn() > 0;
+        } catch (PDOException $e) {
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan saat memeriksa NIS: ' . $e->getMessage(),
+            ];
+            return false; // Default jika error
         }
     }
+
     public static function createUser($username, $password, $role)
     {
 
@@ -62,8 +61,6 @@ class AkunModel
 
             return $pdo->lastInsertId();
         } catch (Exception $e) {
-            // Rollback transaksi jika ada kesalahan
-            // $pdo->rollBack();
 
             // Log atau tampilkan kesalahan jika diperlukan
             error_log($e->getMessage());

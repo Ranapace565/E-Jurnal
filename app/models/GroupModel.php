@@ -43,6 +43,7 @@ class GroupModel
                 WHERE idukas.name LIKE :search 
                 OR mentors.name LIKE :search
                 OR students.name LIKE :search
+                OR idukas.mentor LIKE :search
             ";
             }
 
@@ -107,12 +108,14 @@ class GroupModel
             $query = "
         SELECT COUNT(*) AS total
         FROM groups
+            LEFT JOIN idukas ON groups.iduka_id = idukas.id
+            LEFT JOIN mentors ON groups.nip = mentors.id
+            LEFT JOIN students ON groups.id = students.group_id
         ";
 
             if (!empty($search)) {
                 $query .= " 
-            WHERE mentors.name LIKE :search
-                OR idukas.name LIKE :search
+            WHERE idukas.name LIKE :search OR mentors.name LIKE :search OR students.name LIKE :search;
             ";
             }
 
@@ -131,7 +134,6 @@ class GroupModel
                 'message' => 'Terjadi kesalahan saat menghitung data: ' . $e->getMessage()
             ];
 
-            // Mengembalikan 0 jika terjadi error
             return 0;
         }
     }

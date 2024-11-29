@@ -53,6 +53,7 @@ class ObservationModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // koreksi
     public function createObservation($pdo, $student_id)
     {
         $stmt = $pdo->prepare("INSERT INTO observations (id, nis) VALUES (:id, :nis)");

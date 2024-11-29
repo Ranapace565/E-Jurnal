@@ -78,7 +78,6 @@ class MentorModel
         }
     }
 
-
     public function isMentorExist($id)
     {
         try {
@@ -146,6 +145,14 @@ class MentorModel
         }
         // $this->pdo->beginTransaction();
         try {
+            $akun = new AkunModel;
+            if ($akun::isUserExist($user)) {
+                $_SESSION['flash'] = [
+                    'type' => 'error',
+                    'message' => 'Username ' . $user . ' sudah terdaftar. Tidak dapat menggunakan username yang sama!',
+                ];
+                return false;
+            }
             $role = 'mentor';
             $user_id = AkunModel::createUser($user, $pass, $role);
             if (!$user_id) {
@@ -179,7 +186,6 @@ class MentorModel
             return false;
         }
     }
-
 
     private function create($id, $name, $user)
     {
@@ -247,8 +253,6 @@ class MentorModel
             return null;
         }
     }
-
-
 
     public function resetAkses($id)
     {

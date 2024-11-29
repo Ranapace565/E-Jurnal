@@ -7,9 +7,9 @@ class GroupController
     public function handle($overrideMethod)
     {
         switch ($overrideMethod) {
-                // case 'CREATE':
-                //     $this->create();
-                //     break;
+            case 'CREATE':
+                $this->create();
+                break;
             case 'SHOW':
                 $this->show();
                 break;
@@ -18,7 +18,6 @@ class GroupController
                 break;
             case 'INSERT':
                 $student = new StudentController;
-
                 $this->verifi();
                 $student->updateGroup();
                 $this->show();
@@ -68,9 +67,6 @@ class GroupController
 
         $totalPages = ceil($totalGroups / $limit);
 
-        // $prodis = MentorModel::getProdi();
-
-        // Ambil flash message jika ada
         $flash = $_SESSION['flash'] ?? null;
 
         // Render view

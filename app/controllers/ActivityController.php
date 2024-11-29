@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../models/StudentModel.php';
 
-class StudentController
+class ActivityController
 {
     public function handle($overrideMethod)
     {
