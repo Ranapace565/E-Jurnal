@@ -213,6 +213,8 @@ class StudentController
 
         $file = (new ProfileModel())->findFoto($id);
 
+        $flash = $_SESSION['flash'] ?? null;
+
         require_once __DIR__ . '/../views/student/profile/Index.php';
     }
 }

@@ -106,41 +106,101 @@ class AkunModel
 
 
 
+    // public static function updateUsername($id, $newUsername)
+    // {
+    //     $password = $_POST['oldpassword'];
+    //     $pdo = Database::getConnection();
+
+    //     try {
+    //         $akun = new AkunModel;
+    //         if ($akun::isUserExist($newUsername)) {
+    //             $_SESSION['flash'] = [
+    //                 'type' => 'error',
+    //                 'message' => 'Username ' . $newUsername . ' sudah terdaftar. Tidak dapat menggunakan username yang sama!',
+    //             ];
+    //             return false;
+    //         }
+    //         // Mempersiapkan query untuk update username dan password berdasarkan NIS
+    //         $stmt = $pdo->prepare("UPDATE users SET username = :username WHERE id = :id");
+
+    //         // Mengikat parameter dengan nilai baru
+    //         $stmt->bindParam(':username', $newUsername);
+    //         $stmt->bindParam(':id', $id);
+
+    //         // Menjalankan query
+    //         $stmt->execute();
+
+    //         // Mengecek apakah ada baris yang terpengaruh (data berhasil diperbarui)
+    //         if ($stmt->rowCount() > 0) {
+
+    //             // $_SESSION['flash'] = [
+    //             //     'type' => 'success',
+    //             //     'message' => 'Update akses sukses, Username ' . $newUsername
+    //             // ];
+
+    //             $_SESSION['flash'] = [
+    //                 'type' => 'success',
+    //                 'message' => "Username berhasil diubah :",
+    //                 'username' => $newUsername,
+    //                 'password' => $password,
+    //             ];
+
+    //             return true; // Berhasil memperbarui
+    //         }
+
+    //         return false; // Jika tidak ada baris yang diperbarui
+    //     } catch (Exception $e) {
+    //         $_SESSION['flash'] = [
+    //             'type' => 'error',
+    //             'message' => 'Terjadi kesalahan update akses: ' . $e->getMessage(),
+    //         ];
+    //         return false;
+    //     }
+    // }
+
     public static function updateUsername($id, $newUsername)
     {
         $pdo = Database::getConnection();
 
         try {
-            $akun = new AkunModel;
-            if ($akun::isUserExist($newUsername)) {
-                $_SESSION['flash'] = [
-                    'type' => 'error',
-                    'message' => 'Username ' . $newUsername . ' sudah terdaftar. Tidak dapat menggunakan username yang sama!',
-                ];
-                return false;
-            }
-            // Mempersiapkan query untuk update username dan password berdasarkan NIS
-            $stmt = $pdo->prepare("UPDATE users SET username = :username WHERE id = :id");
-
-            // Mengikat parameter dengan nilai baru
-            $stmt->bindParam(':username', $newUsername);
+            // Ambil username lama dari database
+            $stmt = $pdo->prepare("SELECT username FROM users WHERE id = :id");
             $stmt->bindParam(':id', $id);
-
-            // Menjalankan query
             $stmt->execute();
 
-            // Mengecek apakah ada baris yang terpengaruh (data berhasil diperbarui)
-            if ($stmt->rowCount() > 0) {
+            $currentUsername = $stmt->fetchColumn();
 
-                $_SESSION['flash'] = [
-                    'type' => 'success',
-                    'message' => 'Update akses sukses, Username ' . $newUsername
-                ];
-
-                return true; // Berhasil memperbarui
+            // Jalankan metode isUserExist jika username baru berbeda dengan username lama
+            if ($newUsername !== $currentUsername) {
+                if (self::isUserExist($newUsername)) {
+                    $_SESSION['flash'] = [
+                        'type' => 'error',
+                        'message' => 'Username ' . $newUsername . ' sudah terdaftar. Tidak dapat menggunakan username yang sama!',
+                    ];
+                    return false;
+                }
             }
 
-            return false; // Jika tidak ada baris yang diperbarui
+            // Update username
+            $stmt = $pdo->prepare("UPDATE users SET username = :username WHERE id = :id");
+            $stmt->bindParam(':username', $newUsername);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+
+            // Cek apakah ada baris yang diperbarui
+            if ($stmt->rowCount() > 0) {
+                $_SESSION['flash'] = [
+                    'type' => 'success',
+                    'message' => "Username berhasil diubah menjadi: $newUsername",
+                ];
+                return true;
+            }
+
+            $_SESSION['flash'] = [
+                'type' => 'warning',
+                'message' => 'Tidak ada perubahan yang dilakukan pada username.',
+            ];
+            return false;
         } catch (Exception $e) {
             $_SESSION['flash'] = [
                 'type' => 'error',
@@ -149,6 +209,7 @@ class AkunModel
             return false;
         }
     }
+
 
     public static function update($id, $newUsername, $newPassword)
     {
@@ -170,9 +231,15 @@ class AkunModel
             // Mengecek apakah ada baris yang terpengaruh (data berhasil diperbarui)
             if ($stmt->rowCount() > 0) {
 
+                // $_SESSION['flash'] = [
+                //     'type' => 'success',
+                //     'message' => 'Update akses sukses, Username ' . $newUsername . ', Password ' . $newPassword,
+                // ];
                 $_SESSION['flash'] = [
                     'type' => 'success',
-                    'message' => 'Update akses sukses, Username ' . $newUsername . ', Password ' . $newPassword,
+                    'message' => "Username dan password berhasil diubah :",
+                    'username' => $newUsername,
+                    'password' => $newPassword,
                 ];
 
                 return true; // Berhasil memperbarui

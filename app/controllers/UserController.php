@@ -63,9 +63,11 @@ class UserController
             } else {
                 // Update username dan password
                 $studentModel->update($id, $username, $newpassword);
+
+                // $_SESSION['flash'] = ['type' => 'succes', 'message' => 'Akses berhasil diupdate username: ' . $username];
             }
 
-            $_SESSION['flash'] = ['type' => 'succes', 'message' => 'Akses berhasil diupdate'];
+            // $_SESSION['flash'] = ['type' => 'succes', 'message' => 'Akses berhasil diupdate'];
         } else {
             $_SESSION['flash'] = ['type' => 'error', 'message' => 'Password salah'];
         }
