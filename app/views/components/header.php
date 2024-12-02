@@ -2,7 +2,7 @@
 <?php
 $BASE_URL = 'http://e-jurnal.test:8080//'; // atau ganti sesuai dengan root URL proyek Anda
 ?>
-<html>
+<html class="h-full bg-gray-100">
 
 <head>
   <meta charset="UTF-8" />
@@ -13,10 +13,13 @@ $BASE_URL = 'http://e-jurnal.test:8080//'; // atau ganti sesuai dengan root URL 
 
   <script src="<?php echo $BASE_URL; ?>node_modules/flowbite/dist/flowbite.min.js"></script>
 
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
   <script src="/assets/js/showPassword.js"></script>
 
   <link rel="stylesheet" href="/assets/css/tailwind.css">
   <link rel="stylesheet" href="/assets/css/navbarIndex.css">
+
   <script src="resource/javaScript/index.js"></script>
   <script src="resource/javaScript/menuNavbar.js"></script>
   <!-- <link rel="stylesheet" href="./assets/css/tailwind.css" />

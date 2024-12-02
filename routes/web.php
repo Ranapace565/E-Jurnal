@@ -38,10 +38,10 @@ switch (true) {
         AuthMiddleware::checkAuth('mentor');
         handleAdminRoutes($path, $queryParams);
         break;
-    case preg_match('#^/student#', $path):
+    case preg_match('#^/siswa#', $path):
 
         AuthMiddleware::checkAuth('siswa');
-        handleAdminRoutes($path, $queryParams);
+        handleStudentRoutes($path, $queryParams);
         break;
     default:
         http_response_code(404);

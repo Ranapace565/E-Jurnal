@@ -10,6 +10,7 @@ CREATE TABLE "students" (
 	"health_note"	TEXT,
 	"parent_name"	TEXT,
 	"parent_telp"	TEXT,
+	"parent_address"	TEXT,
 	"expertise"	TEXT,
 	"competence"	TEXT,
 	"nisn"	TEXT,

@@ -1,209 +1,162 @@
-<form>
-    <div class="space-y-12">
-        <div class="border-b border-gray-900/10 pb-12">
-            <h2 class="text-base/7 font-semibold text-gray-900">Profile</h2>
-            <p class="mt-1 text-sm/6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
+<?php require_once __DIR__ . '/../../components/header.php'; ?>
 
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <div class="sm:col-span-4">
-                    <label for="username" class="block text-sm/6 font-medium text-gray-900">Username</label>
-                    <div class="mt-2">
-                        <div class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                            <div class="shrink-0 select-none text-base text-gray-500 sm:text-sm/6">workcation.com/</div>
-                            <input type="text" name="username" id="username" class="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" placeholder="janesmith">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-span-full">
-                    <label for="about" class="block text-sm/6 font-medium text-gray-900">About</label>
-                    <div class="mt-2">
-                        <textarea name="about" id="about" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"></textarea>
-                    </div>
-                    <p class="mt-3 text-sm/6 text-gray-600">Write a few sentences about yourself.</p>
-                </div>
-
-                <div class="col-span-full">
-                    <label for="photo" class="block text-sm/6 font-medium text-gray-900">Photo</label>
-                    <div class="mt-2 flex items-center gap-x-3">
-                        <svg class="size-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
-                            <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
-                        </svg>
-                        <button type="button" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
-                    </div>
-                </div>
-
-                <div class="col-span-full">
-                    <label for="cover-photo" class="block text-sm/6 font-medium text-gray-900">Cover photo</label>
-                    <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                        <div class="text-center">
-                            <svg class="mx-auto size-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" clip-rule="evenodd" />
-                            </svg>
-                            <div class="mt-4 flex text-sm/6 text-gray-600">
-                                <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-                                    <span>Upload a file</span>
-                                    <input id="file-upload" name="file-upload" type="file" class="sr-only">
-                                </label>
-                                <p class="pl-1">or drag and drop</p>
-                            </div>
-                            <p class="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<body class="h-full">
+    <?php require_once __DIR__ . '/../../components/student-navbar.php'; ?>
+    <header class="bg-white shadow">
+        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Kelola Profile</h1>
         </div>
+    </header>
+    <?php require_once __DIR__ . '/../../components/alert.php'; ?>
 
-        <div class="border-b border-gray-900/10 pb-12">
-            <h2 class="text-base/7 font-semibold text-gray-900">Personal Information</h2>
-            <p class="mt-1 text-sm/6 text-gray-600">Use a permanent address where you can receive mail.</p>
+    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 px-2">
+        <!-- Sidebar -->
+        <?php require_once __DIR__ . '/Akses.php'; ?>
 
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <div class="sm:col-span-3">
-                    <label for="first-name" class="block text-sm/6 font-medium text-gray-900">First name</label>
-                    <div class="mt-2">
-                        <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                    </div>
-                </div>
+        <div class="rounded-lg sm:col-span-4">
+            <form action="/siswa/profile" method="POST">
+                <input type="hidden" name="_method" value="UPDATE">
 
-                <div class="sm:col-span-3">
-                    <label for="last-name" class="block text-sm/6 font-medium text-gray-900">Last name</label>
-                    <div class="mt-2">
-                        <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                    </div>
-                </div>
+                <div class="space-y-12">
 
-                <div class="sm:col-span-4">
-                    <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
-                    <div class="mt-2">
-                        <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                    </div>
-                </div>
+                    <div class="border-b border-gray-900/10 pb-12 shadow p-4 bg-white ">
+                        <h2 class="text-2xl flex justify-center w-full mb-4">
+                            <b>
+                                Identitas Siswa
+                            </b>
+                        </h2>
 
-                <div class="sm:col-span-3">
-                    <label for="country" class="block text-sm/6 font-medium text-gray-900">Country</label>
-                    <div class="mt-2 grid grid-cols-1">
-                        <select id="country" name="country" autocomplete="country-name" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                            <option>United States</option>
-                            <option>Canada</option>
-                            <option>Mexico</option>
-                        </select>
-                        <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end fill-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-                            <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
+                        <?php include __DIR__ . '/Upload-Foto.php' ?>
 
-                <div class="col-span-full">
-                    <label for="street-address" class="block text-sm/6 font-medium text-gray-900">Street address</label>
-                    <div class="mt-2">
-                        <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                    </div>
-                </div>
+                        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
-                <div class="sm:col-span-2 sm:col-start-1">
-                    <label for="city" class="block text-sm/6 font-medium text-gray-900">City</label>
-                    <div class="mt-2">
-                        <input type="text" name="city" id="city" autocomplete="address-level2" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                    </div>
-                </div>
+                            <!-- nama -->
+                            <label for="nama" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Nama Siswa</label>
+                            <div class="mt-2 sm:col-span-3">
+                                <input type="text" name="nama" id="nama" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Kosong"
+                                    value="<?= htmlspecialchars($data['nama']); ?>">
+                            </div>
 
-                <div class="sm:col-span-2">
-                    <label for="region" class="block text-sm/6 font-medium text-gray-900">State / Province</label>
-                    <div class="mt-2">
-                        <input type="text" name="region" id="region" autocomplete="address-level1" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                    </div>
-                </div>
+                            <!-- nis -->
+                            <label for="nis" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Nomor Induk Siswa</label>
+                            <div class="sm:col-span-3">
+                                <input type="text" name="id" id="nis" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Kosong" readonly value="<?= htmlspecialchars($data['id']); ?>">
+                            </div>
 
-                <div class="sm:col-span-2">
-                    <label for="postal-code" class="block text-sm/6 font-medium text-gray-900">ZIP / Postal code</label>
-                    <div class="mt-2">
-                        <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                    </div>
-                </div>
-            </div>
-        </div>
+                            <label for="nisn" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Nomor Induk Siswa Nasional</label>
+                            <div class="sm:col-span-3">
+                                <input type="text" name="nisn" id="nisn" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Kosong" value="<?= htmlspecialchars($data['nisn']); ?>">
+                            </div>
 
-        <div class="border-b border-gray-900/10 pb-12">
-            <h2 class="text-base/7 font-semibold text-gray-900">Notifications</h2>
-            <p class="mt-1 text-sm/6 text-gray-600">We'll always let you know about important changes, but you pick what else you want to hear about.</p>
+                            <!-- tempat lahir -->
+                            <label for="tempat" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Tempat Lahir</label>
+                            <div class="mt-2 sm:col-span-3">
+                                <input type="text" name="tempat" id="tempat" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Kosong" value="<?= htmlspecialchars($data['tempat']); ?>">
+                            </div>
+                            <label for="datepicker-autohide" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Tanggal Lahir</label>
 
-            <div class="mt-10 space-y-10">
-                <fieldset>
-                    <legend class="text-sm/6 font-semibold text-gray-900">By email</legend>
-                    <div class="mt-6 space-y-6">
-                        <div class="flex gap-3">
-                            <div class="flex h-6 shrink-0 items-center">
-                                <div class="group grid size-4 grid-cols-1">
-                                    <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" checked class="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
-                                    <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-[:disabled]:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
-                                        <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path class="opacity-0 group-has-[:indeterminate]:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <!-- tanggal lahir -->
+                            <div class="relative max-w-sm sm:col-span-3">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                     </svg>
                                 </div>
+                                <input id="datepicker-autohide"
+                                    name="tanggal" datepicker datepicker-autohide type="text" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Kosong" value=" <?= htmlspecialchars($data['tanggal']); ?>">
                             </div>
-                            <div class="text-sm/6">
-                                <label for="comments" class="font-medium text-gray-900">Comments</label>
-                                <p id="comments-description" class="text-gray-500">Get notified when someones posts a comment on a posting.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-3">
-                            <div class="flex h-6 shrink-0 items-center">
-                                <div class="group grid size-4 grid-cols-1">
-                                    <input id="candidates" aria-describedby="candidates-description" name="candidates" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
-                                    <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-[:disabled]:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
-                                        <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path class="opacity-0 group-has-[:indeterminate]:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="text-sm/6">
-                                <label for="candidates" class="font-medium text-gray-900">Candidates</label>
-                                <p id="candidates-description" class="text-gray-500">Get notified when a candidate applies for a job.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-3">
-                            <div class="flex h-6 shrink-0 items-center">
-                                <div class="group grid size-4 grid-cols-1">
-                                    <input id="offers" aria-describedby="offers-description" name="offers" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
-                                    <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-[:disabled]:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
-                                        <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path class="opacity-0 group-has-[:indeterminate]:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="text-sm/6">
-                                <label for="offers" class="font-medium text-gray-900">Offers</label>
-                                <p id="offers-description" class="text-gray-500">Get notified when a candidate accepts or rejects an offer.</p>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
 
-                <fieldset>
-                    <legend class="text-sm/6 font-semibold text-gray-900">Push notifications</legend>
-                    <p class="mt-1 text-sm/6 text-gray-600">These are delivered via SMS to your mobile phone.</p>
-                    <div class="mt-6 space-y-6">
-                        <div class="flex items-center gap-x-3">
-                            <input id="push-everything" name="push-notifications" type="radio" checked class="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden">
-                            <label for="push-everything" class="block text-sm/6 font-medium text-gray-900">Everything</label>
+                            <label for="kelamin" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Jenis kelamin</label>
+
+                            <div class="sm:col-span-3 flex flex-col ">
+                                <div class="flex items-center mb-4">
+                                    <input id="laki" type="radio" value="laki-laki" name="kelamin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" <?= $data['kelamin'] == 'laki-laki' ? 'checked' : ''; ?>>
+                                    <label for="perempuan" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Laki-Laki</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="perempuan" type="radio" value="perempuan" name="kelamin" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" <?= $data['kelamin'] == 'perempuan' ? 'checked' : ''; ?>>
+                                    <label for="perempuan" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Perempuan</label>
+                                </div>
+                            </div>
+
+                            <!-- darah -->
+                            <label for="kelamin" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Golongan Darah</label>
+
+                            <?php include __DIR__ . '/Blood-Chooser.php' ?>
+
+                            <label for="alamat" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Alamat Siswa</label>
+
+                            <textarea id="alamat" name="alamat" rows="4" class="sm:col-span-3 block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"><?= htmlspecialchars($data['alamat']); ?>
+                            </textarea>
+
+                            <label for="telp" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Nomor Telepon Aktif</label>
+                            <div class="mt-2 sm:col-span-3">
+                                <input type="number" name="telp" id="telp" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" pattern=".{12,}" value="<?= htmlspecialchars($data['telp']); ?>">
+                            </div>
+
+                            <label for="catatan" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Catatan Kesehatan</label>
+
+                            <textarea id="catatan" name="catatan" rows="4" class="sm:col-span-3 block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"><?= htmlspecialchars($data['catatan']); ?>
+                            </textarea>
+
+                            <label for="ortu" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Nama Orang Tua / Wali</label>
+                            <div class="mt-2 sm:col-span-3">
+                                <input type="text" name="ortu" id="ortu" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Kosong" value="<?= htmlspecialchars($data['ortu']); ?>">
+                            </div>
+
+                            <label for="alamatortu" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Alamat Orang Tua / Wali</label>
+
+                            <textarea id="alamatortu" name="alamatortu" rows="4" class="sm:col-span-3 block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Kosong"><?= htmlspecialchars($data['alamatortu']); ?>
+                            </textarea>
+
+                            <label for="ortutelp" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Nomor Telepon Orang Tua / Wali</label>
+                            <div class="mt-2 sm:col-span-3">
+                                <input type="number" name="telportu" id="telportu" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" pattern=".{8,}" value="<?= htmlspecialchars($data['telportu']); ?>">
+                            </div>
+
+                            <label for="prodi" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Program Pendidikan</label>
+                            <div class="mt-2 sm:col-span-3">
+                                <input type="text" name="prodi" id="prodi" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    value="<?= htmlspecialchars($data['prodi']); ?>"
+
+                                    readonly>
+                            </div>
+
+                            <label for="kompetensi" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Kompetensi Keahlian</label>
+                            <div class="mt-2 sm:col-span-3">
+                                <input type="text" name="kompetensi" id="kompetensi" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Kosong" value="<?= htmlspecialchars($data['kompetensi']); ?>">
+                            </div>
+
+                            <input type="hidden" name="group" id="group" value="<?= htmlspecialchars($data['group_id']); ?>">
                         </div>
-                        <div class="flex items-center gap-x-3">
-                            <input id="push-email" name="push-notifications" type="radio" class="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden">
-                            <label for="push-email" class="block text-sm/6 font-medium text-gray-900">Same as email</label>
-                        </div>
-                        <div class="flex items-center gap-x-3">
-                            <input id="push-nothing" name="push-notifications" type="radio" class="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden">
-                            <label for="push-nothing" class="block text-sm/6 font-medium text-gray-900">No push notifications</label>
+                        <div class="mt-6 flex items-center justify-end gap-x-6">
+                            <a href="/siswa/profile" class="text-sm/6 font-semibold text-gray-900">
+                                Batal
+                            </a>
+                            <!-- <button type="button" class="text-sm/6 font-semibold text-gray-900">Batal</button> -->
+                            <button type="submit" class="rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">Simpan perubahan</button>
                         </div>
                     </div>
-                </fieldset>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 
-    <div class="mt-6 flex items-center justify-end gap-x-6">
-        <button type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
-        <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+    <div class="mx-auto max-w-7xl lg:px-28 py-6 px-2 ">
+        <?php require_once __DIR__ . '/Akses.php'; ?>
     </div>
-</form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const imgElement = document.getElementById("image");
+            const svgPlaceholder = document.getElementById("placeholder-icon");
+
+            if (!imgElement.src || imgElement.src === window.location.href) {
+                // Jika src kosong atau default, sembunyikan img dan tampilkan svg
+                imgElement.classList.add("hidden");
+                svgPlaceholder.classList.remove("hidden");
+            }
+        });
+    </script>
+
+</body>

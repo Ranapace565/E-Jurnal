@@ -30,6 +30,28 @@ class AkunModel
         }
     }
 
+    public function auth($id, $password)
+    {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+            $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Verifikasi password
+            if ($user && password_verify($password, $user['password'])) {
+                return true;
+            }
+
+            return false; // Login gagal
+        } catch (PDOException $e) {
+            error_log("Kesalahan auth: " . $e->getMessage());
+            return null;
+        }
+    }
+
     public static function isUserExist($user)
     {
         try {
@@ -67,6 +89,44 @@ class AkunModel
             return false;
         }
         // return $pdo->lastInsertId();
+    }
+
+
+
+    public static function updateUsername($id, $newUsername)
+    {
+        $pdo = Database::getConnection();
+
+        try {
+            // Mempersiapkan query untuk update username dan password berdasarkan NIS
+            $stmt = $pdo->prepare("UPDATE users SET username = :username WHERE id = :id");
+
+            // Mengikat parameter dengan nilai baru
+            $stmt->bindParam(':username', $newUsername);
+            $stmt->bindParam(':id', $id);
+
+            // Menjalankan query
+            $stmt->execute();
+
+            // Mengecek apakah ada baris yang terpengaruh (data berhasil diperbarui)
+            if ($stmt->rowCount() > 0) {
+
+                $_SESSION['flash'] = [
+                    'type' => 'success',
+                    'message' => 'Update akses sukses, Username ' . $newUsername
+                ];
+
+                return true; // Berhasil memperbarui
+            }
+
+            return false; // Jika tidak ada baris yang diperbarui
+        } catch (Exception $e) {
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan update akses: ' . $e->getMessage(),
+            ];
+            return false;
+        }
     }
 
     public static function update($id, $newUsername, $newPassword)

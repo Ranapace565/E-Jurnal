@@ -25,6 +25,11 @@ class StudentController
             case 'DELETEALL':
                 $this->deleteAll();
                 break;
+            case 'AKSES':
+                $akses = new UserController;
+                $akses->update();
+                $this->show();
+                break;
             default:
                 echo "erro student controller";
                 break;
@@ -118,15 +123,16 @@ class StudentController
         $telp = $_POST['telp'];
         $catatan = $_POST['catatan'];
         $ortu = $_POST['ortu'];
-        $ortutelp = $_POST['ortutelp'];
+        $ortutelp = $_POST['telportu'];
+        $ortualamat = $_POST['alamatortu'];
         $prodi = $_POST['prodi'];
         $kompetensi = $_POST['kompetensi'];
         $nisn = $_POST['nisn'];
         $group = $_POST['group'];
 
-        $result = StudentModel::update($id, $nama, $tempat, $tanggal, $sex, $darah, $alamat, $telp, $catatan, $ortu, $ortutelp, $prodi, $kompetensi, $nisn, $group);
+        $result = StudentModel::update($id, $nama, $tempat, $tanggal, $sex, $darah, $alamat, $telp, $catatan, $ortu, $ortutelp, $prodi, $kompetensi, $nisn, $group, $ortualamat);
 
-        exit;
+        $this->show();
     }
 
     public function updateGroup()
@@ -171,8 +177,9 @@ class StudentController
             $prodi = $student['expertise'];
             $kompetensi = $student['competence'];
             $nisn = $student['nisn'];
+            $alamatortu = $student['ortu_address'];
 
-            $result = StudentModel::update($id, $nama, $tempat, $tanggal, $sex, $darah, $alamat, $telp, $catatan, $ortu, $ortutelp, $prodi, $kompetensi, $nisn, $id_group);
+            $result = StudentModel::update($id, $nama, $tempat, $tanggal, $sex, $darah, $alamat, $telp, $catatan, $ortu, $ortutelp, $prodi, $kompetensi, $nisn, $id_group, $alamatortu);
         }
     }
 
@@ -195,15 +202,10 @@ class StudentController
 
     public function show()
     {
-        $id = $_SESSION['id'];
-        $data = new StudentModel();
-        $data->show($id);
+        // $id = $_SESSION['id'];
+        $id = $_SESSION['user']['id'];
+        $data = (new StudentModel())->show($id);
 
         require_once __DIR__ . '/../views/student/profile/Index.php';
     }
-    // public function profile()
-    // {
-    //     $id = $_SESSION['id'];
-    //     $data = new StudentModel();
-    // }
 }

@@ -9,6 +9,9 @@ class UserController
             case 'LOGIN':
                 $this->auth();
                 break;
+            case 'UPDATE':
+                $this->update();
+                break;
             case 'LOGOUT':
                 $this->delete();
                 break;
@@ -20,7 +23,7 @@ class UserController
     {
         $flash = $_SESSION['flash'] ?? null; // Pesan flash jika ada
         unset($_SESSION['flash']); // Hapus flash setelah digunakan
-        require_once __DIR__ . '/../views/auth/login.php';
+        require_once __DIR__ . '/../views/auth/index.php';
     }
 
     public function auth()
@@ -41,6 +44,34 @@ class UserController
         }
     }
 
+    public function update()
+    {
+        $id = $_POST['id'];
+        $username = $_POST['username'];
+        $oldpassword = $_POST['oldpassword'];
+        $newpassword = $_POST['newpassword'];
+
+        $userModel = new AkunModel();
+        $user = $userModel->auth($id, $oldpassword);
+
+        if ($user) {
+            $studentModel = new AkunModel();
+
+            if (empty($newpassword)) {
+                // Update hanya username
+                $studentModel->updateUsername($id, $username);
+            } else {
+                // Update username dan password
+                $studentModel->update($id, $username, $newpassword);
+            }
+
+            $_SESSION['flash'] = ['type' => 'succes', 'message' => 'Akses berhasil diupdate'];
+        } else {
+            $_SESSION['flash'] = ['type' => 'error', 'message' => 'Password salah'];
+        }
+    }
+
+
     private function redirectUser($role)
     {
         // Redirect berdasarkan role
@@ -49,7 +80,7 @@ class UserController
                 header('Location: /admin/data-kelompok');
                 break;
             case 'siswa':
-                header('Location: /student/dashboard');
+                header('Location: /siswa');
                 break;
             case 'dudi':
                 header('Location: /dudi/dashboard');

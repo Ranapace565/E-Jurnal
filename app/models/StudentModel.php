@@ -107,16 +107,33 @@ class StudentModel
             // Persiapan query menggunakan prepared statement
             $stmt = $this->pdo->prepare("
             SELECT 
-                students.*, 
+                COALESCE(students.name, 'kosong') AS nama, 
+                COALESCE(students.id, 'kosong') AS id, 
+                COALESCE(students.nisn, 'kosong') AS nisn,
+                COALESCE(students.born_place, 'kosong') AS tempat, 
+                COALESCE(students.born_date, 'kosong') AS tanggal, 
+                COALESCE(students.sex, 'kosong') AS kelamin, 
+                COALESCE(students.blood_type, 'kosong') AS darah, 
+                COALESCE(students.address, 'kosong') AS alamat, 
+                COALESCE(students.telp, 'kosong') AS telp,
+                COALESCE(students.health_note, 'kosong') AS catatan, 
+                COALESCE(students.parent_name, 'kosong') AS ortu,
+                COALESCE(students.parent_telp, 'kosong') AS telportu,
+                COALESCE(students.parent_address, 'kosong') AS alamatortu,
+                COALESCE(students.expertise, 'kosong') AS prodi, 
+                COALESCE(students.competence, 'kosong') AS kompetensi,  
+                COALESCE(groups.id, 'kosong') AS group_id,    
                 COALESCE(idukas.name, '') AS dudi, 
                 COALESCE(mentors.name, '') AS pembimbing, 
-                COALESCE(users.username, '') AS username
+                COALESCE(users.username, '') AS username,
+                COALESCE(users.id, '') AS user_id,
+                COALESCE(users.password, '') AS password
             FROM students
             LEFT JOIN groups ON students.group_id = groups.id
             LEFT JOIN idukas ON groups.iduka_id = idukas.id
             LEFT JOIN mentors ON groups.nip = mentors.id
             LEFT JOIN users ON students.user_id = users.id
-            WHERE students.id = :id
+            WHERE users.id = :id
         ");
 
             // Bind parameter
@@ -350,10 +367,10 @@ class StudentModel
         return $usernames;
     }
 
-    public static function update($id, $nama, $tempat, $tanggal, $sex, $darah, $alamat, $telp, $catatan, $ortu, $ortutelp, $prodi, $kompetensi, $nisn, $group)
+    public static function update($id, $nama, $tempat, $tanggal, $sex, $darah, $alamat, $telp, $catatan, $ortu, $ortutelp, $prodi, $kompetensi, $nisn, $group, $alamatortu)
     {
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("UPDATE students SET name = :nama, born_place = :tempat, born_date = :tanggal, sex = :kelamin, blood_type = :darah, address = :alamat, telp = :telp, health_note = :catatan, parent_name = :ortu, parent_telp = :ortutelp, expertise = :prodi, competence = :kompetensi, nisn = :nisn, group_id = :group WHERE id = :id");
+        $stmt = $pdo->prepare("UPDATE students SET name = :nama, born_place = :tempat, born_date = :tanggal, sex = :kelamin, blood_type = :darah, address = :alamat, telp = :telp, health_note = :catatan, parent_name = :ortu, parent_telp = :ortutelp, expertise = :prodi, competence = :kompetensi, nisn = :nisn, group_id = :group, parent_address = :paradd WHERE id = :id");
         $stmt->bindParam(':nama', $nama);
         $stmt->bindParam(':tempat', $tempat);
         $stmt->bindParam(':tanggal', $tanggal);
@@ -369,6 +386,7 @@ class StudentModel
         $stmt->bindParam(':nisn', $nisn);
         $stmt->bindParam(':group', $group);
         $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':paradd', $alamatortu);
 
         $stmt->execute();
 

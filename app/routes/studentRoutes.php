@@ -9,6 +9,19 @@ require_once __DIR__ . '/../controllers/GroupController.php';
 function handleStudentRoutes($path, $queryParams)
 {
     switch ($path) {
+        case '/siswa':
+            $method = $_SERVER['REQUEST_METHOD'];
+            $overrideMethod = $_POST['_method'] ?? null;
+            $controller = new StudentController();
+
+            if ($method === 'GET') {
+                $controller->show();
+            } elseif ($method === 'POST') {
+                $controller->handle($overrideMethod);
+            } else {
+                http_response_code(405);
+            }
+            break;
         case '/siswa/profile':
             $method = $_SERVER['REQUEST_METHOD'];
             $overrideMethod = $_POST['_method'] ?? null;
