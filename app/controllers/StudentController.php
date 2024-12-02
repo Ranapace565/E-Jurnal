@@ -30,6 +30,11 @@ class StudentController
                 $akses->update();
                 $this->show();
                 break;
+            case 'UPLOAD':
+                $foto = new ProfileController;
+                $foto->upload();
+                $this->show();
+                break;
             default:
                 echo "erro student controller";
                 break;
@@ -205,6 +210,8 @@ class StudentController
         // $id = $_SESSION['id'];
         $id = $_SESSION['user']['id'];
         $data = (new StudentModel())->show($id);
+
+        $file = (new ProfileModel())->findFoto($id);
 
         require_once __DIR__ . '/../views/student/profile/Index.php';
     }

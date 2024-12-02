@@ -30,6 +30,19 @@ class AkunModel
         }
     }
 
+    public function logout()
+    {
+        // Menghapus semua data sesi
+        session_start(); // Pastikan sesi dimulai
+        session_unset(); // Menghapus semua variabel sesi
+        session_destroy(); // Menghancurkan sesi
+
+        // Redirect ke halaman login atau halaman utama
+        header("Location: /login"); // Ganti dengan rute login Anda
+        exit(); // Pastikan eksekusi berhenti setelah redirect
+    }
+
+
     public function auth($id, $password)
     {
         try {
@@ -98,6 +111,14 @@ class AkunModel
         $pdo = Database::getConnection();
 
         try {
+            $akun = new AkunModel;
+            if ($akun::isUserExist($newUsername)) {
+                $_SESSION['flash'] = [
+                    'type' => 'error',
+                    'message' => 'Username ' . $newUsername . ' sudah terdaftar. Tidak dapat menggunakan username yang sama!',
+                ];
+                return false;
+            }
             // Mempersiapkan query untuk update username dan password berdasarkan NIS
             $stmt = $pdo->prepare("UPDATE users SET username = :username WHERE id = :id");
 

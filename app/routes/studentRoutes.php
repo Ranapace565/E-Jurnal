@@ -5,6 +5,7 @@ require_once __DIR__ . '/../controllers/StudentController.php';
 require_once __DIR__ . '/../controllers/DUDIController.php';
 require_once __DIR__ . '/../controllers/MentorController.php';
 require_once __DIR__ . '/../controllers/GroupController.php';
+require_once __DIR__ . '/../controllers/ProfileController.php';
 
 function handleStudentRoutes($path, $queryParams)
 {
@@ -29,6 +30,20 @@ function handleStudentRoutes($path, $queryParams)
 
             if ($method === 'GET') {
                 $controller->show();
+            } elseif ($method === 'POST') {
+                $controller->handle($overrideMethod);
+            } else {
+                http_response_code(405);
+            }
+            break;
+
+        case '/siswa/foto':
+            $method = $_SERVER['REQUEST_METHOD'];
+            $overrideMethod = $_POST['_method'] ?? null;
+            $controller = new ProfileController();
+
+            if ($method === 'GET') {
+                // $controller->index();
             } elseif ($method === 'POST') {
                 $controller->handle($overrideMethod);
             } else {

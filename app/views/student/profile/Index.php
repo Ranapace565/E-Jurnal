@@ -7,26 +7,26 @@
             <h1 class="text-3xl font-bold tracking-tight text-gray-900">Kelola Profile</h1>
         </div>
     </header>
-    <?php require_once __DIR__ . '/../../components/alert.php'; ?>
+
 
     <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 px-2">
         <!-- Sidebar -->
         <?php require_once __DIR__ . '/Akses.php'; ?>
 
-        <div class="rounded-lg sm:col-span-4">
+        <div class="rounded-lg sm:col-span-4 border-b border-gray-900/10 pb-12 shadow p-4 bg-white ">
+            <?php require_once __DIR__ . '/../../components/alert.php'; ?>
+            <h2 class="text-2xl flex justify-center w-full mb-4">
+                <b>
+                    Identitas Siswa
+                </b>
+            </h2>
+            <?php include __DIR__ . '/Upload-Foto2.php' ?>
             <form action="/siswa/profile" method="POST">
                 <input type="hidden" name="_method" value="UPDATE">
 
                 <div class="space-y-12">
 
-                    <div class="border-b border-gray-900/10 pb-12 shadow p-4 bg-white ">
-                        <h2 class="text-2xl flex justify-center w-full mb-4">
-                            <b>
-                                Identitas Siswa
-                            </b>
-                        </h2>
-
-                        <?php include __DIR__ . '/Upload-Foto.php' ?>
+                    <div>
 
                         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 

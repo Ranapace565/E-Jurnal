@@ -80,7 +80,7 @@ class UserController
                 header('Location: /admin/data-kelompok');
                 break;
             case 'siswa':
-                header('Location: /siswa');
+                header('Location: /siswa/profile');
                 break;
             case 'dudi':
                 header('Location: /dudi/dashboard');
@@ -97,7 +97,9 @@ class UserController
 
     public function delete()
     {
-        $id = $_POST['id'];
-        $result = MentorModel::delete($id);
+        $akses = new AkunModel;
+        $akses->logout();
+        // $id = $_POST['id'];
+        // $result = MentorModel::delete($id);
     }
 }

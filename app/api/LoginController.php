@@ -70,7 +70,38 @@ class LoginController
         $pdo = Database::getConnection();
 
         // Cek pengguna berdasarkan username
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt = $pdo->prepare("
+        SELECT 
+                COALESCE(students.name, 'kosong') AS nama, 
+                COALESCE(students.id, 'kosong') AS nis, 
+                COALESCE(students.nisn, 'kosong') AS nisn,
+                COALESCE(students.born_place, 'kosong') AS tempat, 
+                COALESCE(students.born_date, 'kosong') AS tanggal, 
+                COALESCE(students.sex, 'kosong') AS kelamin, 
+                COALESCE(students.blood_type, 'kosong') AS darah, 
+                COALESCE(students.address, 'kosong') AS alamat, 
+                COALESCE(students.telp, 'kosong') AS telp,
+                COALESCE(students.health_note, 'kosong') AS catatan, 
+                COALESCE(students.parent_name, 'kosong') AS ortu,
+                COALESCE(students.parent_telp, 'kosong') AS telportu,
+                COALESCE(students.parent_address, 'kosong') AS alamatortu,
+                COALESCE(students.expertise, 'kosong') AS prodi, 
+                COALESCE(students.competence, 'kosong') AS kompetensi,  
+                COALESCE(groups.id, 'kosong') AS group_id,    
+                COALESCE(idukas.name, '') AS dudi,
+                COALESCE(idukas.address, '') AS alamatdudi,
+                COALESCE(idukas.mentor, '') AS pimpinan,
+                COALESCE(mentors.name, '') AS pembimbing, 
+                COALESCE(users.username, '') AS username,
+                COALESCE(users.role, '') AS role,
+                COALESCE(users.id, '') AS user_id,
+                COALESCE(users.password, '') AS password
+            FROM students
+            LEFT JOIN groups ON students.group_id = groups.id
+            LEFT JOIN idukas ON groups.iduka_id = idukas.id
+            LEFT JOIN mentors ON groups.nip = mentors.id
+            LEFT JOIN users ON students.user_id = users.id
+            WHERE users.username = :username");
         $stmt->bindParam(':username', $username);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -110,6 +141,25 @@ class LoginController
             'token' => $token,
             'data' => [
                 'id' => $user['id'],
+                'nama' => $user['nama'],
+                'nis' => $user['nis'],
+                'nisn' => $user['nisn'],
+                'tempat' => $user['tempat'],
+                'tanggal' => $user['tanggal'],
+                'kelamin' => $user['kelamin'],
+                'darah' => $user['darah'],
+                'alamat' => $user['alamat'],
+                'telp' => $user['telp'],
+                'catatan' => $user['catatan'],
+                'ortu' => $user['ortu'],
+                'telportu' => $user['telportu'],
+                'alamatortu' => $user['alamatortu'],
+                'prodi' => $user['prodi'],
+                'kompetensi' => $user['kompetensi'],
+                'dudi' => $user['dudi'],
+                'pimpinan' => $user['pimpinan'],
+                'alamatdudi' => $user['alamatdudi'],
+                'pembimbing' => $user['pembimbing'],
                 'username' => $user['username'],
                 'role' => $user['role']
             ]
