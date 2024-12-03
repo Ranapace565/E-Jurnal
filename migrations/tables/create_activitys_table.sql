@@ -6,6 +6,7 @@ CREATE TABLE "activitys" (
 	"approve"	INTEGER,
 	"week"	INTEGER NOT NULL,
 	"nis"	INTEGER NOT NULL,
+	"arsip"	INTEGER,
     "create_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY("id"),
 	FOREIGN KEY("nis") REFERENCES "students"("id")

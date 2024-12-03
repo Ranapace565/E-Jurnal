@@ -393,6 +393,27 @@ class StudentModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public static function updateGroup($id, $group)
+    {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("UPDATE students SET group_id = :group WHERE id = :id");
+            $stmt->bindParam(':group', $group);
+            $stmt->bindParam(':id', $id);
+
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Menyimpan pesan error dalam session
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan saat mengupdate group siswa: ' . $e->getMessage(),
+            ];
+            return null;
+        }
+    }
+
     public static function getById($id)
     {
         try {
@@ -409,7 +430,8 @@ class StudentModel
                 COALESCE(mentors.name, '') AS pembimbing, 
                 COALESCE(users.username, '') AS username,
                 COALESCE(students.sex, '') AS kelamin,
-                COALESCE(students.address, '') AS alamat
+                COALESCE(students.address, '') AS alamat,
+                COALESCE(users.id, '') AS user_id
                 FROM students
                 LEFT JOIN groups ON students.group_id = groups.id
                 LEFT JOIN idukas ON groups.iduka_id = idukas.id

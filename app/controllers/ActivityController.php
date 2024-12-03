@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../models/StudentModel.php';
+// require_once __DIR__ . '/../models/ActivityModel.php';
 
 class ActivityController
 {
@@ -37,9 +38,12 @@ class ActivityController
         $limit = 10;
         $offset = ($currentPage - 1) * $limit;
 
+
         $students = StudentModel::getAll($search, $limit, $offset);
 
+
         $totalStudents = StudentModel::countAll($search);
+
 
         $totalPages = ceil($totalStudents / $limit);
 
@@ -47,7 +51,7 @@ class ActivityController
 
         $flash = $_SESSION['flash'] ?? null;
 
-        require_once __DIR__ . '/../views/admin/students/Index.php';
+        require_once __DIR__ . '/../views/student/activity/Index.php';
     }
 
     public function create()

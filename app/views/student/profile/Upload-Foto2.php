@@ -5,7 +5,7 @@
         <div class="mt-2 flex items-center gap-x-3 flex-col">
             <!-- Gambar Preview -->
             <label for="file-upload">
-                <img id="image" src="<?= htmlspecialchars($file['file_path']); ?>" alt="Default Image" class="rounded-full w-96 h-96 md:w-40 md:h-40 object-cover" />
+                <img id="image" src="<?= htmlspecialchars($file['file_path']); ?>" alt="Default Image" class="rounded-full w-40 h-40 md:w-40 md:h-40 object-cover" />
                 <svg id="placeholder-icon" class="size-20 text-gray-300 hidden w-40 h-40 md:w-40 md:h-40"
                     viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd"
@@ -17,7 +17,7 @@
             <div class="mt-4 flex text-sm text-gray-600">
                 <label for="file-upload"
                     class="relative cursor-pointer rounded-md bg-white font-semibold text-primary-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 hover:text-primary-500">
-                    <span>Ubah foto</span>
+                    <span>Ubah foto 1:1</span>
                     <input id="file-upload" name="file" type="file" accept=".png,.jpg,.jpeg" class="sr-only"
                         onchange="validateAndPreview(this)">
                 </label>
