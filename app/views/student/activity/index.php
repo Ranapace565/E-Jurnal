@@ -28,7 +28,7 @@
                                 Proses
                             </b>
                         </p>
-                        <span class="flex items-center text-3xl font-bold ">16
+                        <span class="flex items-center text-3xl font-bold "><?= min($currentPage * $limit, $totalPending) ?>
                         </span>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                                 Diterima
                             </b>
                         </p>
-                        <span class="flex items-center text-3xl font-bold ">16
+                        <span class="flex items-center text-3xl font-bold "><?= min($currentPage * $limit, $totalApproved) ?>
                         </span>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                                 Ditolak
                             </b>
                         </p>
-                        <span class="flex items-center text-3xl font-bold ">16
+                        <span class="flex items-center text-3xl font-bold "><?= min($currentPage * $limit, $totalRejected) ?>
                         </span>
                     </div>
                 </div>
@@ -68,8 +68,8 @@
 
                 <div
                     class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4">
-                    <div class="w-full md:w-1/2">
-                        <form class="flex items-center" action="/admin/data-mentor" method="GET">
+                    <div class="w-full md:w-1/2" id="search">
+                        <form class="flex items-center" action="/siswa/kegiatan#search" method="GET">
                             <label for="simple-search" class="sr-only">Search</label>
                             <div class="relative w-full">
                                 <div
@@ -109,129 +109,124 @@
                         </div>
                     </div>
                 </div>
+                <?php require_once __DIR__ . '/../../components/alert.php'; ?>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table class="w-full text-sm text-left rtl:text-right text-blue-100 dark:text-blue-100">
                         <thead class="text-xs text-white uppercase bg-blue-600 border-b border-blue-400 dark:text-white">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
-                                    Product name
+                                    Tanggal
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Color
+                                    Aktivitas
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Category
+                                    Status
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Price
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Action
+                                    <span class="sr-only">Actions</span>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="bg-yellow-400 border-b border-blue-400 hover:bg-blue-500">
-                                <th scope="row" class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
-                                    Apple MacBook Pro 17"
-                                </th>
-                                <td class="px-6 py-4">
-                                    Silver
-                                </td>
-                                <td class="px-6 py-4">
-                                    Laptop
-                                </td>
-                                <td class="px-6 py-4">
-                                    $2999
-                                </td>
-                                <td class="px-6 py-4">
-                                    <a href="#" class="font-medium text-white hover:underline">Edit</a>
-                                </td>
-                            </tr>
-                            <tr class="bg-green-500 border-b border-blue-400 hover:bg-blue-500">
-                                <th scope="row" class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
-                                    Microsoft Surface Pro
-                                </th>
-                                <td class="px-6 py-4">
-                                    White
-                                </td>
-                                <td class="px-6 py-4">
-                                    Laptop PC
-                                </td>
-                                <td class="px-6 py-4">
-                                    $1999
-                                </td>
-                                <td class="px-6 py-4">
-                                    <a href="#" class="font-medium text-white hover:underline">Edit</a>
-                                </td>
-                            </tr>
-                            <tr class="bg-red-500 border-b border-blue-400 hover:bg-blue-500">
-                                <th scope="row" class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
-                                    Magic Mouse 2
-                                </th>
-                                <td class="px-6 py-4">
-                                    Black
-                                </td>
-                                <td class="px-6 py-4">
-                                    Accessories
-                                </td>
-                                <td class="px-6 py-4">
-                                    $99
-                                </td>
-                                <td class="px-6 py-4">
-                                    <a href="#" class="font-medium text-white hover:underline">Edit</a>
-                                </td>
-                            </tr>
+                            <?php foreach ($activitys as $activity) : ?>
+                                <?php
+                                $rowClass = '';
+                                $approveText = '';
+
+                                if ($activity['approve'] == 1) {
+                                    $rowClass = 'bg-green-100';
+                                    $approveText = 'Diterima';
+                                } elseif ($activity['approve'] == 0) {
+                                    $rowClass = 'bg-yellow-50';
+                                    $approveText = 'Proses';
+                                } elseif ($activity['approve'] == 2) {
+                                    $rowClass = 'bg-red-100';
+                                    $approveText = 'Ditolak';
+                                }
+                                ?>
+                                <tr class="<?= $rowClass; ?> border-b border-blue-400 hover:bg-blue-500">
+                                    <td class="px-6 py-4 text-gray-600">
+                                        <?= htmlspecialchars($activity['date']); ?>
+                                    </td>
+                                    <th scope="row" class="px-6 py-4 text-gray-600 whitespace-nowrap dark:text-blue-100">
+                                        <?= htmlspecialchars($activity['activity']); ?>
+                                    </th>
+                                    <td class="px-6 py-4 text-gray-600">
+                                        <?= htmlspecialchars($approveText); ?>
+                                    </td>
+                                    <td class="px-6 py-4 flex items-center justify-end">
+                                        <button
+                                            id="button-<?= htmlspecialchars($activity['id']); ?>"
+                                            data-dropdown-toggle="dropdown-<?= htmlspecialchars($activity['id']); ?>"
+                                            class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
+                                            type="button">
+                                            <svg
+                                                class="w-5 h-5"
+                                                aria-hidden="true"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                            </svg>
+                                        </button>
+                                        <div
+                                            id="dropdown-<?= htmlspecialchars($activity['id']); ?>"
+                                            class="hidden z-50 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 absolute">
+                                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
+                                                <li>
+                                                    <a
+                                                        href="/admin/show-mentor?id=<?= htmlspecialchars($activity['id']); ?>"
+                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
+                                                </li>
+                                                <li>
+                                                    <form action="/admin/data-mentor" method="POST" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onsubmit="return confirm('Apakah Anda yakin ingin mereset akses?')">
+                                                        <input type="hidden" name="_method" value="RESET">
+                                                        <input type="hidden" name="id" value="<?= htmlspecialchars($activity['id']); ?>">
+                                                        <button type="submit" class="w-full text-left">
+                                                            Reset Password
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                            <div class="py-1">
+                                                <form action="/admin/data-mentor" method="POST" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data?')">
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <input type="hidden" name="id" value="<?= htmlspecialchars($activity['id']); ?>">
+                                                    <button type="submit" class="w-full text-left">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
 
-        <div id="deleteOrderModal" tabindex="-1" aria-hidden="true" class="fixed left-0 right-0 top-0 z-50 hidden h-modal w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0 md:h-full">
-            <div class="relative h-full w-full max-w-md p-4 md:h-auto">
-                <!-- Modal content -->
-                <div class="relative rounded-lg bg-white p-4 text-center shadow dark:bg-gray-800 sm:p-5">
-                    <button type="button" class="absolute right-2.5 top-2.5 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="deleteOrderModal">
-                        <svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                    <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 p-2 dark:bg-gray-700">
-                        <svg class="h-8 w-8 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-                        </svg>
-                        <span class="sr-only">Danger icon</span>
-                    </div>
-                    <p class="mb-3.5 text-gray-900 dark:text-white"><a href="#" class="font-medium text-primary-700 hover:underline dark:text-primary-500">@heleneeng</a>, are you sure you want to delete this order from your account?</p>
-                    <p class="mb-4 text-gray-500 dark:text-gray-300">This action cannot be undone.</p>
-                    <div class="flex items-center justify-center space-x-4">
-                        <button data-modal-toggle="deleteOrderModal" type="button" class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600">No, cancel</button>
-                        <button type="submit" class="rounded-lg bg-red-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Yes, delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
     <nav class="flex flex-col items-center py-4 mb-8">
         <span class="text-sm text-gray-700 dark:text-gray-400 mb-4">
             Menampilkan
             <span class="font-semibold text-gray-900 dark:text-white"><?= (($currentPage - 1) * $limit) + 1 ?></span>
             sampai
-            <span class="font-semibold text-gray-900 dark:text-white"><?= min($currentPage * $limit, $totalGroups) ?></span>
+            <span class="font-semibold text-gray-900 dark:text-white"><?= min($currentPage * $limit, $totalActivitys) ?></span>
             dari
-            <span class="font-semibold text-gray-900 dark:text-white"><?= $totalGroups ?></span>
+            <span class="font-semibold text-gray-900 dark:text-white"><?= $totalActivitys ?></span>
         </span>
         <!--  -->
         <nav aria-label="Page navigation example">
             <ul class="inline-flex -space-x-px text-sm">
                 <!-- Tombol Previous -->
                 <li>
-                    <a href="<?= $currentPage > 1 ? '/admin/data-kelompok?page=' . ($currentPage - 1) . '&search=' . htmlspecialchars($search) : '#' ?>"
+                    <a href="<?= $currentPage > 1 ? '/siswa/kegiatan?page=' . ($currentPage - 1) . '&search=' . htmlspecialchars($search) : '#' ?>"
                         class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white <?= $currentPage == 1 ? 'cursor-not-allowed opacity-50' : '' ?>">
-                        Previous
+                        Sebelumnya
                     </a>
                 </li>
 
@@ -243,8 +238,8 @@
                     // Jika ada hanya 1 atau 2 halaman, tampilkan semua halaman
                     for ($page = 1; $page <= $totalPages; $page++) {
                         echo '<li>
-                    <a href="/admin/data-kelompok?page=' . $page . '&search=' . htmlspecialchars($search) . '"
-                    class="flex items-center justify-center px-3 h-8 border leading-tight text-gray-500  dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ' . ($page === $currentPage ? 'text-blue-600 border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : '') . '">
+                    <a href="/siswa/kegiatan?page=' . $page . '&search=' . htmlspecialchars($search) . '"
+                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ' . ($page === $currentPage ? 'text-blue-600 border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : '') . '">
                     ' . $page . '
                     </a>
                 </li>';
@@ -259,7 +254,7 @@
                     // Menampilkan halaman
                     foreach ($pageRange as $page) {
                         echo '<li>
-                    <a href="/admin/data-group?page=' . $page . '&search=' . htmlspecialchars($search) . '"
+                    <a href="/siswa/kegiatan?page=' . $page . '&search=' . htmlspecialchars($search) . '"
                     class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 border dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ' . ($page === $currentPage ? 'text-blue-600 border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : '') . '">
                     ' . $page . '
                     </a>
@@ -270,14 +265,13 @@
 
                 <!-- Tombol Next -->
                 <li>
-                    <a href="<?= $currentPage < $totalPages ? '/admin/data-group?page=' . ($currentPage + 1) . '&search=' . htmlspecialchars($search) : '#' ?>"
+                    <a href="<?= $currentPage < $totalPages ? '/admin/data-siswa?page=' . ($currentPage + 1) . '&search=' . htmlspecialchars($search) : '#' ?>"
                         class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white <?= $currentPage == $totalPages ? 'cursor-not-allowed opacity-50' : '' ?>">
-                        Next
+                        Selanjutnya
                     </a>
                 </li>
             </ul>
         </nav>
+        <!--  -->
     </nav>
-
-
 </body>

@@ -140,54 +140,6 @@ class StudentController
         $this->show();
     }
 
-    // public function updateGroup()
-    // {
-
-    //     $id = $_POST['nis'];
-    //     $id_group = $_POST['id'];
-
-    //     $verifi = StudentModel::getById($id);
-    //     $userid = $verifi['user_id'];
-
-    //     if (!$verifi) {
-    //         $_SESSION['flash'] = [
-    //             'type' => 'error',
-    //             'message' => 'NIS siswa tidak ditemukan.',
-    //         ];
-    //         header('Location: /student/update');
-    //         exit;
-    //     } elseif (!empty($verifi['group_id'])) {
-    //         $group = GroupModel::getGroup($verifi['group_id']);
-    //         $_SESSION['flash'] = [
-    //             'type' => 'error',
-    //             'message' => 'ID siswa sudah terdaftar dalam grup.' . $group['Inama'] . '',
-    //         ];
-    //         header('Location: /student/update');
-    //         exit;
-    //     } else {
-
-    //         $data = new StudentModel();
-    //         $student = $data->getById($id);
-
-    //         $nama = $student['name'];
-    //         $tempat = $student['born_place'];
-    //         $tanggal = $student['born_date'];
-    //         $sex = $student['sex'];
-    //         $darah = $student['blood_type'];
-    //         $alamat = $student['address'];
-    //         $telp = $student['telp'];
-    //         $catatan = $student['health_note'];
-    //         $ortu = $student['parent_name'];
-    //         $ortutelp = $student['parent_telp'];
-    //         $prodi = $student['expertise'];
-    //         $kompetensi = $student['competence'];
-    //         $nisn = $student['nisn'];
-    //         $alamatortu = $student['ortu_address'];
-
-    //         $result = StudentModel::update($id, $nama, $tempat, $tanggal, $sex, $darah, $alamat, $telp, $catatan, $ortu, $ortutelp, $prodi, $kompetensi, $nisn, $id_group, $alamatortu);
-    //     }
-    // }
-
     public function updateGroup()
     {
 

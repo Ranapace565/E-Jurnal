@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../models/StudentModel.php';
-// require_once __DIR__ . '/../models/ActivityModel.php';
+require_once __DIR__ . '/../models/ActivityModel.php';
 
 class ActivityController
 {
@@ -11,9 +11,9 @@ class ActivityController
             case 'CREATE':
                 $this->create();
                 break;
-            case 'GENERATE':
-                $this->createGenerator();
-                break;
+                // case 'GENERATE':
+                //     $this->createGenerator();
+                //     break;
             case 'RESET':
                 $this->reset();
                 break;
@@ -33,21 +33,29 @@ class ActivityController
     }
     public function index($queryParams)
     {
+        $id = $_SESSION['user']['id'];
+
         $search = $queryParams['search'] ?? '';
+
         $currentPage = isset($queryParams['page']) ? (int)$queryParams['page'] : 1;
+
         $limit = 10;
         $offset = ($currentPage - 1) * $limit;
 
+        // echo $id;
+        $activitys = ActivityModel::getAll($id, $search, $limit);
 
-        $students = StudentModel::getAll($search, $limit, $offset);
+        $totalApproved = ActivityModel::countByStatus($id, 1); // Approve = 1 (diterima)
+        $totalRejected = ActivityModel::countByStatus($id, 2); // Approve = 2 (ditolak)
+        $totalPending = ActivityModel::countByStatus($id, 0);  // Approve = 0 (proses)
 
 
-        $totalStudents = StudentModel::countAll($search);
+        $totalActivitys = ActivityModel::countAll($id);
 
 
-        $totalPages = ceil($totalStudents / $limit);
+        $totalPages = ceil($totalActivitys / $limit);
 
-        $prodis = StudentModel::getProdi();
+        // $prodis = ActivityModel::getProdi();
 
         $flash = $_SESSION['flash'] ?? null;
 
@@ -56,25 +64,16 @@ class ActivityController
 
     public function create()
     {
-        // $nis = $data['nis'];
-        // $name = $data['name'];
-        // $username = $data['username'];
-        // $password = $data['password'];
-        // $prodi = $data['prodi'];
+        $id = $_SESSION['user']['id'];
+        $date = $_POST['tanggal'];
+        $aktivitas = $_POST['kegiatan'];
+        $deskripsi = $_POST['detail'];
 
-        $nis = $_POST['nis'];
-        $name = $_POST['name'];
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $prodi = $_POST['prodi'];
+        $studentModel = new ActivityModel();
 
-        $studentModel = new StudentModel();
-
-        $studentModel->createSiswa($nis, $name, $username, $password, $prodi);
-
+        $studentModel->createActivity($id, $date, $aktivitas, $deskripsi);
 
         $this->index([]);
-        // header('Location: /admin/data-siswa');
         exit;
     }
 
@@ -102,7 +101,8 @@ class ActivityController
 
     public function reset()
     {
-        $id = $_POST['id'];
+        // $id = $_POST['id'];
+        $id = $_SESSION['user_id'];
         $studentModel = new StudentModel();
         $studentModel->resetAkses($id);
 
