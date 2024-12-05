@@ -135,6 +135,24 @@ class StudentController
         $nisn = $_POST['nisn'];
         $group = $_POST['group'];
 
+        if (!empty($telp) && strlen($telp) < 6) {
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Nomor telepon siswa harus minimal 6 karakter!',
+            ];
+            $this->show();
+            return;
+        }
+
+        if (!empty($ortutelp) && strlen($ortutelp) < 6) {
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Nomor telepon orang tua harus minimal 6 karakter!',
+            ];
+            $this->show();
+            return;
+        }
+
         $result = StudentModel::update($id, $nama, $tempat, $tanggal, $sex, $darah, $alamat, $telp, $catatan, $ortu, $ortutelp, $prodi, $kompetensi, $nisn, $group, $ortualamat);
 
         $this->show();

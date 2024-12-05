@@ -24,23 +24,23 @@
         aria-labelledby="actionsDropdownButton">
         <li>
             <a
-                href="#"
+                href="/siswa/kegiatan?approve=3#main"
                 class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Proses</a>
         </li>
         <li>
             <a
-                href="#"
+                href="/siswa/kegiatan?approve=1#main"
                 class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Diterima</a>
         </li>
         <li>
             <a
-                href="#"
+                href="/siswa/kegiatan?approve=2#main"
                 class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ditolak</a>
         </li>
+        <li>
+            <a
+                href="/siswa/kegiatan#main"
+                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Semua</a>
+        </li>
     </ul>
-    <div class="py-1">
-        <a
-            href="/admin/deleteall-siswa"
-            class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" onclick="return confirm('Apakah Anda yakin ingin menghapus semua data siswa? Tindakan ini tidak dapat dibatalkan.')">Delete all</a>
-    </div>
 </div>

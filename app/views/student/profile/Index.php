@@ -8,7 +8,7 @@
         </div>
     </header>
 
-    <?php require_once __DIR__ . '/../../components/alert.php'; ?>
+
 
     <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 px-2">
         <!-- Sidebar -->
@@ -16,14 +16,16 @@
 
         <div class="rounded-lg sm:col-span-4 border-b border-gray-900/10 pb-12 shadow p-4 bg-white ">
 
-            <h2 class="text-2xl flex justify-center w-full mb-4">
+            <h2 class="text-2xl flex justify-center w-full mb-4" id="identitas">
                 <b>
                     Identitas Siswa
                 </b>
             </h2>
             <?php include __DIR__ . '/Upload-Foto2.php' ?>
 
-            <form action="/siswa/profile" method="POST">
+            <?php require_once __DIR__ . '/../../components/alert.php'; ?>
+
+            <form action="/siswa/profile#identitas" method="POST">
                 <input type="hidden" name="_method" value="UPDATE">
 
                 <div class="space-y-12">
@@ -47,7 +49,7 @@
 
                             <label for="nisn" class="flex flex-col justify-center text-sm/6 font-medium text-gray-900 sm:col-span-2 ">Nomor Induk Siswa Nasional</label>
                             <div class="sm:col-span-3">
-                                <input type="text" name="nisn" id="nisn" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Kosong" value="<?= htmlspecialchars($data['nisn']); ?>">
+                                <input type="number" name="nisn" id="nisn" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" placeholder="Kosong" value="<?= htmlspecialchars($data['nisn']); ?>">
                             </div>
 
                             <!-- tempat lahir -->

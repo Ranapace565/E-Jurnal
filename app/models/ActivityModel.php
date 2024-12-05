@@ -14,7 +14,7 @@ class ActivityModel
     {
         $this->pdo = Database::getConnection();
     }
-    public static function getAll($userId, $search = '', $limit = 10, $offset = 0)
+    public static function getAll($userId, $search = '', $approve = '', $limit = 10, $offset = 0)
     {
         $student = self::studentId($userId);
         try {
@@ -37,6 +37,12 @@ class ActivityModel
             ";
             }
 
+            if (!empty($approve)) {
+                $query .= "
+                AND (activitys.approve LIKE :search)
+            ";
+            }
+
             // Pengurutan dan paginasi
             $query .= "
             ORDER BY activitys.date ASC
@@ -52,6 +58,10 @@ class ActivityModel
             // Parameter untuk pencarian
             if (!empty($search)) {
                 $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+            }
+
+            if (!empty($approve)) {
+                $stmt->bindValue(':search', '%' . $approve . '%', PDO::PARAM_STR);
             }
 
             // Parameter untuk paginasi
@@ -78,7 +88,6 @@ class ActivityModel
             return [];
         }
     }
-
 
     public function isDudiExist($name)
     {
@@ -237,11 +246,6 @@ class ActivityModel
         }
     }
 
-    // Contoh penggunaan
-    // $tanggalAwal = "2006-08-20";
-    // $tanggalAkhir = "2006-08-29";
-    // echo "Minggu ke: " . hitungMingguKe($tanggalAwal, $tanggalAkhir);
-
 
 
     public function createActivity($userId, $date, $activity, $description)
@@ -261,7 +265,7 @@ class ActivityModel
 
             $query = "
                 INSERT INTO activitys (date, activity, description, approve, week, nis)
-                VALUES (:date, :activity, :description, 0, :week, :nis)
+                VALUES (:date, :activity, :description, 3, :week, :nis)
             ";
 
             // Persiapan query
@@ -292,6 +296,29 @@ class ActivityModel
 
             // Mengembalikan false jika terjadi error
             return false;
+        }
+    }
+
+    public static function update($id, $tanggal, $aktivitas, $detail)
+    {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("UPDATE activitys SET date = :date, activity = :activity, description = :deskripsi, approve = 3 WHERE id = :id");
+            $stmt->bindParam(':date', $tanggal);
+            $stmt->bindParam(':activity', $aktivitas);
+            $stmt->bindParam(':deskripsi', $detail);
+            $stmt->bindParam(':id', $id);
+            $_SESSION['flash'] = [
+                'type' => 'success',
+                'message' => 'Aktivitas Berhasil diupdate',
+            ];
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan saat update aktivitas: ' . $e->getMessage(),
+            ];
+            return null; // Default jika error
         }
     }
 
@@ -342,74 +369,34 @@ class ActivityModel
         }
     }
 
-    public function resetAkses($id)
-    {
-        try {
-            // Mengambil data iduka berdasarkan ID
-            $dudi = self::getById($id);
-
-            if (!$dudi) {
-                $_SESSION['flash'] = [
-                    'type' => 'error',
-                    'message' => 'Data DUDI tidak ditemukan!',
-                ];
-            }
-            $namaF = str_replace(' ', '_', $dudi['nama']);
-            // Membuat password baru
-            $password = 'password_' . $namaF;
-
-            // Update akun pengguna
-            $result = AkunModel::update($dudi['user_id'], $namaF, $password);
-
-            if ($result) {
-                $_SESSION['flash'] = [
-                    'type' => 'success',
-                    'message' => "Password untuk DUDI '{$dudi['nama']}' berhasil direset.",
-                ];
-            } else {
-                throw new Exception("Gagal mereset password untuk DUDI '{$dudi['nama']}'.");
-            }
-        } catch (Exception $e) {
-            $_SESSION['flash'] = [
-                'type' => 'error',
-                'message' => "Terjadi kesalahan reset akses DUDI: " . $e->getMessage(),
-            ];
-        }
-    }
-
     public static function delete($id)
     {
         try {
             $pdo = Database::getConnection();
 
 
-            require_once __DIR__ . '/AkunModel.php';
-
-            $dudi = self::getById($id);
-
-
-            $stmt = $pdo->prepare("DELETE FROM idukas WHERE id = :id");
+            $stmt = $pdo->prepare("DELETE FROM activitys WHERE id = :id");
             $stmt->bindParam(':id', $id);
             $stmt->execute();
 
-            if (AkunModel::delete($dudi['user_id'])) {
-                $_SESSION['flash'] = [
-                    'type' => 'success',
-                    'message' => 'Data DUDI ' . $dudi['nama'] . ' berhasil dihapus!',
-                ];
-            } else {
-                $_SESSION['flash'] = [
-                    'type' => 'error',
-                    'message' => 'Data DUDI ' . $dudi['nama'] . ' gagal dihapus!',
-                ];
-            }
+            // if () {
+            //     $_SESSION['flash'] = [
+            //         'type' => 'success',
+            //         'message' => 'Data aktivitas berhasil dihapus!',
+            //     ];
+            // } else {
+            //     $_SESSION['flash'] = [
+            //         'type' => 'error',
+            //         'message' => 'Data aktivitas gagal dihapus!',
+            //     ];
+            // }
 
 
             return true;
         } catch (PDOException $e) {
             $_SESSION['flash'] = [
                 'type' => 'error',
-                'message' => 'Terjadi kesalahan saat menghapus siswa: ' . $e->getMessage(),
+                'message' => 'Terjadi kesalahan saat menghapus kegiatan: ' . $e->getMessage(),
             ];
             return false;
         }
