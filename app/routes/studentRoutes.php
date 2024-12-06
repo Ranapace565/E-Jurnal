@@ -89,17 +89,17 @@ function handleStudentRoutes($path, $queryParams)
                 http_response_code(405);
             }
             break;
-        case '/admin/detail-kelompok':
-            $method = $_SERVER['REQUEST_METHOD'];
-            $overrideMethod = $_POST['_method'] ?? null;
-            $controller = new GroupController();
+            // case '/admin/detail-kelompok':
+            //     $method = $_SERVER['REQUEST_METHOD'];
+            //     $overrideMethod = $_POST['_method'] ?? null;
+            //     $controller = new GroupController();
 
-            if ($method === 'POST') {
-                $controller->handle($overrideMethod);
-            } else {
-                http_response_code(405);
-            }
-            break;
+            //     if ($method === 'POST') {
+            //         $controller->handle($overrideMethod);
+            //     } else {
+            //         http_response_code(405);
+            //     }
+            //     break;
         default:
             http_response_code(404);
             echo "Page Not Found1";

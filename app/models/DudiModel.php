@@ -81,6 +81,38 @@ class DudiModel
         }
     }
 
+    public function show($id)
+    {
+        try {
+            // Persiapan query menggunakan prepared statement
+            $stmt = $this->pdo->prepare("
+            SELECT   
+                COALESCE(idukas.name, '') AS nama, 
+                COALESCE(users.username, '') AS username,
+                COALESCE(users.id, '') AS user_id,
+                COALESCE(users.password, '') AS password
+            FROM idukas
+            LEFT JOIN users ON idukas.user_id = users.id
+            WHERE users.id = :id
+        ");
+
+            // Bind parameter
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            // Eksekusi query
+            $stmt->execute();
+
+            // Mengembalikan hasil sebagai array asosiatif
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Data siswa dengan id ' . $id . ' tidak ditemukan : ' . $e->getMessage(),
+            ];
+            return null;
+        }
+    }
+
     public function isDudiExist($name)
     {
         try {

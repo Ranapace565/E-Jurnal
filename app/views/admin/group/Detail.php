@@ -15,7 +15,10 @@
   <section class=" bg-white py-8 antialiased dark:bg-gray-900 max-w-2xl mx-auto mt-4 shadow-blurShadow rounded-lg px-4">
     <!-- class=" bg-white py-8 antialiased dark:bg-gray-900 md:py-16 max-w-2xl  mx-auto mt-4" -->
 
-    <h2 class=" text-3xl font-bold tracking-tight text-gray-800 mb-4" id="kelola">
+    <a href="/admin/data-kelompok" class="mb-8">
+      <b class="text-blue-700">
+        << kembali</b></a>
+    <h2 class=" text-3xl font-bold tracking-tight text-gray-800 mb-4 mt-4" id="kelola">
       Kelola Kelompok
     </h2>
     <small class="text-red-600">*klik pada data untuk memilih dan merubah, dan klik simpan perubahan</small>

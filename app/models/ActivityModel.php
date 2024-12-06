@@ -14,6 +14,82 @@ class ActivityModel
     {
         $this->pdo = Database::getConnection();
     }
+
+    public static function index($userId, $search = '', $approve = '', $limit = 10, $offset = 0)
+    {
+        $student = self::studentId($userId);
+        try {
+            $pdo = Database::getConnection();
+
+            // Query dasar
+            $query = "
+            SELECT activitys.*, students.name AS student_name, users.username AS user_name
+            FROM activitys
+            LEFT JOIN students ON students.id = activitys.nis
+            LEFT JOIN users ON users.id = students.user_id
+            WHERE students.id = :userId
+        ";
+
+            // Filter pencarian
+            if (!empty($search)) {
+                $query .= "
+                AND (activitys.date LIKE :search
+                OR activitys.activity LIKE :search)
+            ";
+            }
+
+            if (!empty($approve)) {
+                $query .= "
+                AND (activitys.approve LIKE :search)
+            ";
+            }
+
+            // Pengurutan dan paginasi
+            $query .= "
+            ORDER BY activitys.date ASC
+            LIMIT :limit OFFSET :offset
+        ";
+
+            // Persiapan query
+            $stmt = $pdo->prepare($query);
+
+            // Parameter untuk user ID
+            $stmt->bindValue(':userId', $student, PDO::PARAM_INT);
+
+            // Parameter untuk pencarian
+            if (!empty($search)) {
+                $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+            }
+
+            if (!empty($approve)) {
+                $stmt->bindValue(':search', '%' . $approve . '%', PDO::PARAM_STR);
+            }
+
+            // Parameter untuk paginasi
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+            // Eksekusi query
+            $stmt->execute();
+
+            // echo ' idnya ' . $student;
+            // var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
+            // die();
+
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Menyimpan pesan error dalam session
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan saat mengambil data: ' . $e->getMessage(),
+            ];
+
+            // Mengembalikan array kosong jika terjadi error
+            return [];
+        }
+    }
+
     public static function getAll($userId, $search = '', $approve = '', $limit = 10, $offset = 0)
     {
         $student = self::studentId($userId);
@@ -54,6 +130,80 @@ class ActivityModel
 
             // Parameter untuk user ID
             $stmt->bindValue(':userId', $student, PDO::PARAM_INT);
+
+            // Parameter untuk pencarian
+            if (!empty($search)) {
+                $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+            }
+
+            if (!empty($approve)) {
+                $stmt->bindValue(':search', '%' . $approve . '%', PDO::PARAM_STR);
+            }
+
+            // Parameter untuk paginasi
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+            // Eksekusi query
+            $stmt->execute();
+
+            // echo ' idnya ' . $student;
+            // var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
+            // die();
+
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Menyimpan pesan error dalam session
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan saat mengambil data: ' . $e->getMessage(),
+            ];
+
+            // Mengembalikan array kosong jika terjadi error
+            return [];
+        }
+    }
+
+    public static function getByDudi($userId, $search = '', $approve = '', $limit = 10, $offset = 0)
+    {
+        // echo $userId;
+        try {
+            $pdo = Database::getConnection();
+
+            // Query dasar
+            $query = "
+            SELECT activitys.*, students.name AS student_name
+            FROM activitys
+            LEFT JOIN students ON students.id = activitys.nis
+            WHERE students.id = :Id
+        ";
+
+            // Filter pencarian
+            if (!empty($search)) {
+                $query .= "
+                AND (activitys.date LIKE :search
+                OR activitys.activity LIKE :search)
+            ";
+            }
+
+            if (!empty($approve)) {
+                $query .= "
+                AND (activitys.approve LIKE :search)
+            ";
+            }
+
+            // Pengurutan dan paginasi
+            $query .= "
+            ORDER BY activitys.date ASC
+            LIMIT :limit OFFSET :offset
+        ";
+
+            // Persiapan query
+            $stmt = $pdo->prepare($query);
+
+            // Parameter untuk user ID
+            $stmt->bindValue(':Id', $userId, PDO::PARAM_INT);
 
             // Parameter untuk pencarian
             if (!empty($search)) {
@@ -299,14 +449,15 @@ class ActivityModel
         }
     }
 
-    public static function update($id, $tanggal, $aktivitas, $detail)
+    public static function update($id, $tanggal, $aktivitas, $detail, $approve)
     {
         try {
             $pdo = Database::getConnection();
-            $stmt = $pdo->prepare("UPDATE activitys SET date = :date, activity = :activity, description = :deskripsi, approve = 3 WHERE id = :id");
+            $stmt = $pdo->prepare("UPDATE activitys SET date = :date, activity = :activity, description = :deskripsi, approve = :approve WHERE id = :id");
             $stmt->bindParam(':date', $tanggal);
             $stmt->bindParam(':activity', $aktivitas);
             $stmt->bindParam(':deskripsi', $detail);
+            $stmt->bindParam(':approve', $approve);
             $stmt->bindParam(':id', $id);
             $_SESSION['flash'] = [
                 'type' => 'success',

@@ -14,7 +14,6 @@ function handleLoginRoutes($path, $queryParams)
                 $controller->index($queryParams);
             } elseif ($method === 'POST') {
                 $controller->handle($overrideMethod);
-
                 // $controller->auth();
             } else {
                 http_response_code(405);

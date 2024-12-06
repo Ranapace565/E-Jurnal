@@ -26,7 +26,7 @@ class UserController
         require_once __DIR__ . '/../views/auth/index.php';
     }
 
-    public function auth()
+    private function auth()
     {
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
@@ -63,11 +63,7 @@ class UserController
             } else {
                 // Update username dan password
                 $studentModel->update($id, $username, $newpassword);
-
-                // $_SESSION['flash'] = ['type' => 'succes', 'message' => 'Akses berhasil diupdate username: ' . $username];
             }
-
-            // $_SESSION['flash'] = ['type' => 'succes', 'message' => 'Akses berhasil diupdate'];
         } else {
             $_SESSION['flash'] = ['type' => 'error', 'message' => 'Password salah'];
         }
@@ -85,7 +81,7 @@ class UserController
                 header('Location: /siswa/profile');
                 break;
             case 'dudi':
-                header('Location: /dudi/dashboard');
+                header('Location: /dudi/kelompok');
                 break;
             case 'mentor':
                 header('Location: /mentor/dashboard');
@@ -97,11 +93,9 @@ class UserController
         exit;
     }
 
-    public function delete()
+    private function delete()
     {
         $akses = new AkunModel;
         $akses->logout();
-        // $id = $_POST['id'];
-        // $result = MentorModel::delete($id);
     }
 }

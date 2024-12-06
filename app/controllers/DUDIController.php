@@ -3,30 +3,25 @@
 require_once __DIR__ . '/../models/StudentModel.php';
 
 require_once __DIR__ . '/../models/DudiModel.php';
+require_once __DIR__ . '/../models/GroupModel.php';
 
 class DudiController
 {
     public function handle($overrideMethod)
     {
         switch ($overrideMethod) {
+                // case 'GROUP':
+                //     $this->groupDudi();
+                //     break;
             case 'CREATE':
                 $this->create();
                 break;
-                // case 'GENERATE':
-                //     $this->createGenerator();
-                //     break;
             case 'RESET':
                 $this->reset();
                 break;
-                // case 'UPDATE':
-                //     $this->update();
-                //     break;
             case 'DELETE':
                 $this->delete();
                 break;
-                // case 'DELETEALL':
-                //     $this->deleteAll();
-                //     break;
             default:
                 break;
         }
@@ -48,14 +43,23 @@ class DudiController
 
         $totalPages = ceil($totalDudis / $limit);
 
-        // $prodis = DudiModel::getProdi();
-
-        // Ambil flash message jika ada
         $flash = $_SESSION['flash'] ?? null;
 
-        // Render view
         require_once __DIR__ . '/../views/admin/dudi/Index.php';
     }
+
+    public function group()
+    {
+        $id = $_SESSION['user']['id'];
+        $data = new GroupModel;
+        $Groups = $data->getByDudi($id);
+
+
+        require_once __DIR__ . '/../views/dudi/group/Index.php';
+    }
+
+
+    // getByDudi($id)
     public function create()
     {
 

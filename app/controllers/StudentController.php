@@ -35,6 +35,7 @@ class StudentController
                 $foto->upload();
                 $this->show();
                 break;
+                // indexDudi
             default:
                 echo "erro student controller";
                 break;
@@ -60,7 +61,28 @@ class StudentController
         require_once __DIR__ . '/../views/admin/students/Index.php';
     }
 
-    public function create()
+    public function indexDudi($queryParams)
+    {
+        $id = $_SESSION['user']['id'];
+        $search = $queryParams['search'] ?? '';
+        $currentPage = isset($queryParams['page']) ? (int)$queryParams['page'] : 1;
+        $limit = 10;
+        $offset = ($currentPage - 1) * $limit;
+
+        $students = StudentModel::getPerDudi($id, $search, $limit, $offset,);
+
+        $totalStudents = StudentModel::countPerDudi($id, $search);
+
+        $totalPages = ceil($totalStudents / $limit);
+
+        $prodis = StudentModel::getProdi();
+
+        $flash = $_SESSION['flash'] ?? null;
+
+        require_once __DIR__ . '/../views/dudi/students/Index.php';
+    }
+
+    private function create()
     {
         // $nis = $data['nis'];
         // $name = $data['name'];
@@ -84,7 +106,7 @@ class StudentController
         exit;
     }
 
-    public function createGenerator()
+    private function createGenerator()
     {
         // Periksa apakah data POST tersedia
         $first = isset($_POST['nis1']) ? $_POST['nis1'] : null;
@@ -106,7 +128,7 @@ class StudentController
         exit;
     }
 
-    public function reset()
+    private function reset()
     {
         $id = $_POST['id'];
         $studentModel = new StudentModel();
@@ -116,7 +138,7 @@ class StudentController
         exit;
     }
 
-    public function update()
+    private function update()
     {
         $id = $_POST['id'];
         $nama = $_POST['nama'];
@@ -188,8 +210,7 @@ class StudentController
         }
     }
 
-
-    public function delete()
+    private function delete()
     {
         $id = $_POST['id'];
 
@@ -200,7 +221,7 @@ class StudentController
         exit;
     }
 
-    public function deleteAll()
+    private function deleteAll()
     {
         $result = StudentModel::deleteAll();
         $this->index([]);

@@ -69,8 +69,55 @@ class GroupModel
             // Eksekusi query
             $stmt->execute();
 
-            // $mentorList = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            // Mengembalikan hasil dalam bentuk array
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Menyimpan pesan error dalam session
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan saat mengambil data: ' . $e->getMessage(),
+            ];
+
+            // Mengembalikan array kosong jika terjadi error
+            return [];
+        }
+    }
+
+    public static function getByDudi($id)
+    {
+        try {
+            $pdo = Database::getConnection();
+
+            // Query dasar
+            $query = "
+            SELECT 
+                groups.id AS id,
+                groups.date_start AS start,
+                groups.date_finish AS finish,
+                COALESCE(idukas.name, 'Kosong') AS Inama,
+                COALESCE(idukas.address, '') AS alamat,
+                COALESCE(mentors.name, 'kosong') AS Mnama,
+                COALESCE(idukas.mentor, 'kosong') AS MInama,
+                COALESCE(students.expertise, '') AS prodi,
+                COALESCE(students.name, '') AS Sname,
+                COALESCE(COUNT(students.id), 0) AS total_students
+            FROM groups
+            LEFT JOIN idukas ON groups.iduka_id = idukas.id
+			LEFT JOIN users ON idukas.user_id = users.id
+            LEFT JOIN mentors ON groups.nip = mentors.id
+            LEFT JOIN students ON groups.id = students.group_id
+			where users.id = :id
+            GROUP BY groups.id
+            ORDER BY idukas.name ASC
+        ";
+
+            // Persiapan query
+            $stmt = $pdo->prepare($query);
+
+            $stmt->bindValue(':id', $id);
+
+            // Eksekusi query
+            $stmt->execute();
+
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             // Menyimpan pesan error dalam session
