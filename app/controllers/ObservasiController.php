@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/../models/ObservasiModel.php';
+require_once __DIR__ . '/../models/ObservationModel.php';
 
-class ObservasiController
+class ObservationController
 {
     public function handle($overrideMethod)
     {
@@ -12,46 +12,85 @@ class ObservasiController
             case 'DELETE':
                 $this->delete();
                 break;
+            case 'SHOW':
+                $this->show();
+                break;
             default:
                 http_response_code(405);
                 break;
         }
     }
 
-    public function show($id){
-        try
-    }
-
-    public function upload()
+    public function show()
     {
-        $userId = $_SESSION['user']['id']; // Ambil ID user dari session
-        $file = $_FILES['file'];
+        $nis = $_SESSION['nis'];
 
-        $profileModel = new ProfileModel();
-        $result = $profileModel->upload($userId, $file);
+        $siswa = new StudentModel();
+        $siswa = $siswa->getById($nis);
 
-        if ($result) {
-            $_SESSION['flash'] = ['type' => 'success', 'message' => 'Foto berhasil diupload!'];
-        } else {
-            $_SESSION['flash'] = ['type' => 'error', 'message' => 'Gagal mengupload foto.'];
-        }
+        $student_id = $nis; // ID siswa yang ingin ditampilkan
+
+        $obser = new ObservationModel();
+
+        // Ambil data observasi
+        $observation = $obser->getObservation($student_id);
+
+        // Ambil data indikator berdasarkan observasi
+        $indicators = $obser->getIndicators($observation['id']);
+
+        // Ambil data indicatories berdasarkan semua `indicators_id`
+        $indicator_ids = array_column($indicators, 'id'); // Dapatkan semua ID indikator
+        $indicatories = $obser->getIndictories($indicator_ids);
+
+        // Ambil catatan berdasarkan observasi
+        $notes = $obser->getNotes($observation['id']);
+
+
+        require_once __DIR__ . '/../views/dudi/observasi/Index.php';
     }
+
 
     public function update()
     {
-        $userId = $_SESSION['user_id'];
-        $file = $_FILES['file'];
+        // Loop through POST data to update indicator and note descriptions, and achievement
+        foreach ($_POST as $key => $value) {
+            // Handle updates for indicator achievement (radio buttons)
+            if (strpos($key, 'achievement-') === 0) {
+                $indicatorId = str_replace('achievement-', '', $key);
+                $achievement = $_POST["achievement-{$indicatorId}"];
+                // $achievement = 1;
 
-        $profileModel = new ProfileModel();
-        $result = $profileModel->update($userId, $file);
+                // Validate achievement (if necessary)
+                if (!in_array($achievement, [1, 2])) {
+                    throw new Exception("Achievement value must be 1 or 2 for indicator ID $indicatorId.");
+                }
 
-        if ($result) {
-            $_SESSION['flash'] = ['type' => 'success', 'message' => 'Foto berhasil diupdate!'];
-        } else {
-            $_SESSION['flash'] = ['type' => 'error', 'message' => 'Gagal mengupdate foto.'];
+                // Update achievement in indicatories table
+                ObservationModel::updateAchievement($indicatorId, $achievement);
+            }
+
+            // Handle updates for indicator description
+            if (strpos($key, 'desc-') === 0) {
+                $indicatorId = str_replace('desc-', '', $key);
+                $description = $_POST[$key];
+
+                // Update description in indicators table
+                ObservationModel::updateIndicatorDescription($indicatorId, $description);
+            }
+
+            // Handle updates for note descriptions
+            if (strpos($key, 'note-') === 0) {
+                $noteId = str_replace('note-', '', $key);
+                $description = $_POST[$key];
+
+                // Update description in notes table
+                ObservationModel::updateNoteDescription($noteId, $description);
+            }
         }
 
-        header('Location: /siswa/foto');
+        // Optionally, redirect to show method or another page
+        $this->show();
+        exit;
     }
 
     public function delete()

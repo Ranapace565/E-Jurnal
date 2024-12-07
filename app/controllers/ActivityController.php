@@ -88,7 +88,7 @@ class ActivityController
 
         $totalActivitys = ActivityModel::countAll($id);
 
-        echo $totalActivitys;
+        // echo $totalActivitys;
 
 
         $totalPages = ceil($totalActivitys / $limit);

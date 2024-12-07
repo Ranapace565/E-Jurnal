@@ -24,6 +24,7 @@ class ObservationModel
         // Contoh data indicators
         $indicatorsData = [
             ["description" => "Penerapan Soft skills yang dibutuhkan dalam dunia kerja (tempat PKL) ", "indicatories" => [
+                ["objective" => "Penerapan Soft skills yang dibutuhkan dalam dunia kerja (tempat PKL) ", "achievement" => '0'],
                 ["objective" => "Melaksanakan Komunikasi telepon sesuai kaidah", "achievement" => '0'],
                 ["objective" => "Menunjukan integritas (antara lain jujur, disiplin komitmen, dan tanggung jawab)", "achievement" => '0'],
                 ["objective" => "Memiliki Etos kerja", "achievement" => '0'],
@@ -32,13 +33,15 @@ class ObservationModel
                 ["objective" => "Menunjukan kepedulian sosial dan lingkungan", "achievement" => '0'],
             ]],
             ["description" => "Menerapkan Norma, POS dan K3LH yang ada di Dunia Kerja (Tempat PKL)", "indicatories" => [
+                ["objective" => "Menerapkan Norma, POS dan K3LH yang ada di Dunia Kerja (Tempat PKL)", "achievement" => '0'],
                 ["objective" => "Menggunakan APD dengan tertib dan benar", "achievement" => '0'],
                 ["objective" => "Melaksanakan pekerjaan dengan POS", "achievement" => '0'],
             ]],
             ["description" => "Menerapkan kompetensi teknis yang sudah dipelajari di sekolah dan/atau baru", "indicatories" => [
-                ["objective" => "", "achievement" => '0'],
+                ["objective" => "Menerapkan kompetensi teknis yang sudah dipelajari di sekolah dan/atau baru", "achievement" => '0'],
             ]],
             ["description" => "Dipelajari pada dunia kerja (tempat PKL) Memahami alur bisnis dunia kerja tempat PKL dan wawasan wirausaha", "indicatories" => [
+                ["objective" => "Dipelajari pada dunia kerja (tempat PKL) Memahami alur bisnis dunia kerja tempat PKL dan wawasan wirausaha", "achievement" => '0'],
                 ["objective" => "Mengidentifikasi kegiatan usaha ditempat kerja", "achievement" => '0'],
                 ["objective" => "Menjelaskan rencana usaha yang akan dilaksanakan", "achievement" => '0'],
             ]],
@@ -118,6 +121,101 @@ class ObservationModel
             // Log atau tampilkan kesalahan jika diperlukan
             error_log($e->getMessage());
             return false;
+        }
+    }
+
+    function getObservation($student_id)
+    {
+        $pdo = Database::getConnection();
+
+        $stmt = $pdo->prepare("
+            SELECT * FROM observations WHERE nis = :student_id
+        ");
+        $stmt->bindParam(':student_id', $student_id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function getIndicators($observation_id)
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare("
+            SELECT * FROM indicators WHERE observation_id = :observation_id
+        ");
+        $stmt->bindParam(':observation_id', $observation_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getIndictories($indicator_ids)
+    {
+        $pdo = Database::getConnection();
+
+        $placeholders = implode(',', array_fill(0, count($indicator_ids), '?'));
+        $stmt = $pdo->prepare("
+            SELECT * FROM indicatories WHERE indicators_id IN ($placeholders)
+        ");
+        $stmt->execute($indicator_ids);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getNotes($observation_id)
+    {
+        $pdo = Database::getConnection();
+
+        $stmt = $pdo->prepare("
+            SELECT 
+            id, 
+            objective,
+            COALESCE(description, '-') AS description
+             FROM notes WHERE observation_id = :observation_id
+        ");
+        $stmt->bindParam(':observation_id', $observation_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function updateNoteDescription($id, $description)
+    {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("UPDATE notes SET description = :description WHERE id = :id");
+            $stmt->bindValue(':description', $description, PDO::PARAM_STR);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            // Handle error
+            throw new Exception('Error updating note description: ' . $e->getMessage());
+        }
+    }
+
+    // Update description in indicators table
+    public static function updateIndicatorDescription($id, $description)
+    {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("UPDATE indicators SET description = :description WHERE id = :id");
+            $stmt->bindValue(':description', $description, PDO::PARAM_STR);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            // Handle error
+            throw new Exception('Error updating indicator description: ' . $e->getMessage());
+        }
+    }
+
+    // Update achievement in indicatories table
+    public static function updateAchievement($id, $achievement)
+    {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("UPDATE indicatories SET achievement = :achievement WHERE id = :id");
+            $stmt->bindValue(':achievement', $achievement, PDO::PARAM_INT);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            // Handle error
+            throw new Exception('Error updating achievement: ' . $e->getMessage());
         }
     }
 }

@@ -4,6 +4,7 @@ require_once __DIR__ . '/../controllers/DudiController.php';
 require_once __DIR__ . '/../controllers/ActivityController.php';
 require_once __DIR__ . '/../controllers/StudentController.php';
 require_once __DIR__ . '/../controllers/EvaluationController.php';
+require_once __DIR__ . '/../controllers/ObservasiController.php';
 
 function handleDudiRoutes($path, $queryParams)
 {
@@ -17,8 +18,6 @@ function handleDudiRoutes($path, $queryParams)
                 $controller->index($queryParams);
             } elseif ($method === 'POST') {
                 $controller->handle($overrideMethod);
-
-                // $controller->auth();
             } else {
                 http_response_code(405);
             }
@@ -28,22 +27,6 @@ function handleDudiRoutes($path, $queryParams)
             $method = $_SERVER['REQUEST_METHOD'];
             $overrideMethod = $_POST['_method'] ?? null;
             $controller = new DUDIController();
-
-            if ($method === 'GET') {
-                $controller->group();
-            } elseif ($method === 'POST') {
-                $controller->handle($overrideMethod);
-
-                // $controller->auth();
-            } else {
-                http_response_code(405);
-            }
-            break;
-
-        case '/dudi/observasi':
-            $method = $_SERVER['REQUEST_METHOD'];
-            $overrideMethod = $_POST['_method'] ?? null;
-            $controller = new ObservationController();
 
             if ($method === 'GET') {
                 $controller->group();
@@ -94,11 +77,31 @@ function handleDudiRoutes($path, $queryParams)
             $overrideMethod = $_POST['_method'] ?? null;
             $controller = new EvaluationController();
 
+            if (isset($_POST['nis'])) {
+                $_SESSION['nis'] = $_POST['nis'];
+            }
+
             if ($method === 'GET') {
-                $controller->show($queryParams);
+                // $controller->show($queryParams);
             } elseif ($method === 'POST') {
-                $controller->show($queryParams);
-                // $controller->handle($overrideMethod);
+                $controller->handle($overrideMethod);
+            } else {
+                http_response_code(405);
+            }
+            break;
+        case '/dudi/observasi':
+            $method = $_SERVER['REQUEST_METHOD'];
+            $overrideMethod = $_POST['_method'] ?? null;
+            $controller = new ObservationController();
+
+            if (isset($_POST['nis'])) {
+                $_SESSION['nis'] = $_POST['nis'];
+            }
+
+            if ($method === 'GET') {
+                // $controller->group();
+            } elseif ($method === 'POST') {
+                $controller->handle($overrideMethod);
             } else {
                 http_response_code(405);
             }

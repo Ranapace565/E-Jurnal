@@ -1,8 +1,8 @@
 CREATE TABLE "indicators" (
 	"id"	INTEGER NOT NULL,
 	-- "objective"	TEXT NOT NULL,
-	-- "achievement"	INTEGER NOT NULL,
 	"indicator"	TEXT ,
+	"achievement"	INTEGER NOT NULL,
 	"description"	TEXT ,
 	"observation_id"	INTEGER NOT NULL,
     "create_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
