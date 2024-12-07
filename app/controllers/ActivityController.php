@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../models/StudentModel.php';
 require_once __DIR__ . '/../models/ActivityModel.php';
+require_once __DIR__ . '/../models/GroupModel.php';
 
 class ActivityController
 {
@@ -11,17 +12,20 @@ class ActivityController
             case 'CREATE':
                 $this->create();
                 break;
-                // case 'SHOW':
-                //     $this->show();
-                //     break;
+            case 'SHOW':
+                $this->indexDudi([]);
+                break;
             case 'UPDATE':
                 $this->update();
+                break;
+            case 'APPROVE':
+                $this->approve();
                 break;
             case 'DELETE':
                 $this->delete();
                 break;
             default:
-                echo "erro student controller";
+                echo "error dalam controller student controller";
                 break;
         }
     }
@@ -67,21 +71,24 @@ class ActivityController
 
         $approve = $queryParams['approve'] ?? '';
 
+        echo $approve;
+
         $currentPage = isset($queryParams['page']) ? (int)$queryParams['page'] : 1;
 
         $limit = 10;
         $offset = ($currentPage - 1) * $limit;
 
-        // echo $id;
 
         $activitys = ActivityModel::getByDudi($id, $search, $approve, $limit, $offset);
 
-        $totalApproved = ActivityModel::countByStatus($id, 1); // Approve = 1 (diterima)
-        $totalRejected = ActivityModel::countByStatus($id, 2); // Approve = 2 (ditolak)
-        $totalPending = ActivityModel::countByStatus($id, 3);  // Approve = 0 (proses)
+        $totalApproved = ActivityModel::countByTop($id, 1); // Approve = 1 (diterima)
+        $totalRejected = ActivityModel::countByTop($id, 2); // Approve = 2 (ditolak)
+        $totalPending = ActivityModel::countByTop($id, 3);  // Approve = 0 (proses)
 
 
         $totalActivitys = ActivityModel::countAll($id);
+
+        echo $totalActivitys;
 
 
         $totalPages = ceil($totalActivitys / $limit);
@@ -103,9 +110,22 @@ class ActivityController
     public function create()
     {
         $id = $_SESSION['user']['id'];
+
+        if (GroupModel::findStudent($id)) {
+            echo $id;
+            $this->index([]);
+            exit;
+        }
+
+
         $date = $_POST['tanggal'];
         $aktivitas = $_POST['kegiatan'];
         $deskripsi = $_POST['detail'];
+
+        if (ActivityModel::TrueWeek($id, $date)) {
+            $this->index([]);
+            exit;
+        }
 
         $activityModel = new ActivityModel();
 
@@ -164,6 +184,25 @@ class ActivityController
         $update->update($id, $tanggal, $aktivitas, $detail, $approve);
 
         $this->index([]);
+        exit;
+    }
+
+    public function approve()
+    {
+        $id = $_POST['id'];
+        $tanggal = $_POST['tanggal'];
+        $aktivitas = $_POST['kegiatan'];
+        $detail = $_POST['detail'];
+        if (isset($_POST['approve'])) {
+            $approve = $_POST['approve'];
+        } else {
+            $approve = 3;
+        }
+
+        $update = new ActivityModel;
+        $update->update($id, $tanggal, $aktivitas, $detail, $approve);
+
+        $this->indexDudi([]);
         exit;
     }
 

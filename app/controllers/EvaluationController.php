@@ -1,11 +1,14 @@
 <?php
-require_once __DIR__ . '/../models/ObservasiModel.php';
+require_once __DIR__ . '/../models/EvaluationModel.php';
 
-class ProfileController
+class EvaluationController
 {
     public function handle($overrideMethod)
     {
         switch ($overrideMethod) {
+            case 'CREATE':
+                $this->update();
+                break;
             case 'UPDATE':
                 $this->update();
                 break;
@@ -18,11 +21,11 @@ class ProfileController
         }
     }
 
-    public function show($id){
 
-        try{
-            
-        }
+    public function create($id) {}
+    public function show($id)
+    {
+        require_once __DIR__ . '/../views/dudi/evaluation/Index.php';
     }
 
     public function upload()

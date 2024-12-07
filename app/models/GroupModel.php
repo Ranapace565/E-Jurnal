@@ -265,6 +265,37 @@ class GroupModel
         }
     }
 
+    public static function findStudent($nis)
+    {
+        try {
+            $db = Database::getConnection();
+            $query = $db->prepare("SELECT students.group_id 
+            FROM students 
+            LEFT JOIN users ON students.user_id = users.id
+            WHERE users.id = ?");
+            $query->execute([$nis]);
+
+            $result = $query->fetchColumn();
+
+            // Cek apakah hasilnya null
+            if ($result === null) {
+                $_SESSION['flash'] = [
+                    'type' => 'warning',
+                    'message' => 'Pembuatan aktivitas gagal!, Data Anda tidak terdaftar dalam kelompok!',
+                ];
+                return true; // Mengembalikan true jika nilainya null
+            }
+            return false;
+        } catch (PDOException $e) {
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan saat mencari data: ' . $e->getMessage(),
+            ];
+            return true; // Default jika error
+        }
+    }
+
+
     public static function getGroup($id)
     {
         try {

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/ObservasiModel.php';
 
-class ProfileController
+class ObservasiController
 {
     public function handle($overrideMethod)
     {
@@ -19,10 +19,7 @@ class ProfileController
     }
 
     public function show($id){
-
-        try{
-            
-        }
+        try
     }
 
     public function upload()

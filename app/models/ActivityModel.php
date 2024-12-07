@@ -189,9 +189,10 @@ class ActivityModel
 
             if (!empty($approve)) {
                 $query .= "
-                AND (activitys.approve LIKE :search)
+                AND (activitys.approve LIKE :approve)
             ";
             }
+
 
             // Pengurutan dan paginasi
             $query .= "
@@ -211,7 +212,7 @@ class ActivityModel
             }
 
             if (!empty($approve)) {
-                $stmt->bindValue(':search', '%' . $approve . '%', PDO::PARAM_STR);
+                $stmt->bindValue(':approve', '%' . $approve . '%', PDO::PARAM_STR);
             }
 
             // Parameter untuk paginasi
@@ -271,7 +272,53 @@ class ActivityModel
         }
     }
 
-    public static function countAll($userId, $search = '')
+    public static function countAll($nis, $search = '')
+    {
+        try {
+            $pdo = Database::getConnection();
+
+            // Query dasar untuk menghitung total aktivitas
+            $query = "
+                SELECT COUNT(*) AS total
+                FROM activitys
+                LEFT JOIN students ON students.id = activitys.nis
+                LEFT JOIN users ON users.id = students.user_id
+                WHERE students.id = :nis
+            ";
+
+            // Filter pencarian
+            if (!empty($search)) {
+                $query .= " 
+                    AND (activitys.date LIKE :search
+                        OR activitys.activity LIKE :search)
+                ";
+            }
+
+            $stmt = $pdo->prepare($query);
+
+            // Parameter user ID
+            $stmt->bindValue(':nis', $nis, PDO::PARAM_INT);
+
+            // Parameter pencarian
+            if (!empty($search)) {
+                $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+            }
+
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (PDOException $e) {
+            // Menyimpan pesan error dalam session
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan saat menghitung data: ' . $e->getMessage()
+            ];
+
+            return 0;
+        }
+    }
+
+    public static function countByNis($userId, $search = '')
     {
         $student = self::studentId($userId);
         try {
@@ -367,6 +414,53 @@ class ActivityModel
         }
     }
 
+    public static function countByTop($userId, $status, $search = '')
+    {
+        try {
+            $pdo = Database::getConnection();
+
+            // Query dasar untuk menghitung total aktivitas berdasarkan status
+            $query = "
+            SELECT COUNT(*) AS total
+            FROM activitys
+            LEFT JOIN students ON students.id = activitys.nis
+            WHERE students.id = :userId
+            AND activitys.approve = :status
+        ";
+
+            // Filter pencarian
+            if (!empty($search)) {
+                $query .= " 
+                AND (activitys.date LIKE :search
+                     OR activitys.activity LIKE :search)
+            ";
+            }
+
+            $stmt = $pdo->prepare($query);
+
+            // Parameter user ID dan status
+            $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+            $stmt->bindValue(':status', $status, PDO::PARAM_INT);
+
+            // Parameter pencarian
+            if (!empty($search)) {
+                $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+            }
+
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        } catch (PDOException $e) {
+            // Menyimpan pesan error dalam session
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan saat menghitung data berdasarkan status: ' . $e->getMessage()
+            ];
+
+            return 0;
+        }
+    }
+
     function week($id, $tanggalAkhir)
     {
         $siswa = new StudentModel();
@@ -382,7 +476,7 @@ class ActivityModel
             $akhir = new DateTime($tanggalAkhir);
 
             if ($awal > $akhir) {
-                throw new Exception("Tanggal awal harus lebih kecil atau sama dengan tanggal akhir.");
+                throw new Exception("Pembuatan aktivitas gagal!, Tanggal awal harus lebih kecil atau sama dengan tanggal akhir.");
             }
 
             $interval = $awal->diff($akhir);
@@ -395,6 +489,40 @@ class ActivityModel
             return "Terjadi kesalahan: " . $e->getMessage();
         }
     }
+
+    public static function TrueWeek($id, $tanggalAkhir)
+    {
+        $siswa = new StudentModel();
+        $siswa = $siswa->show($id);
+        $siswa = $siswa['group_id'];
+
+        $groupModel = new GroupModel;
+        $group = $groupModel->getGroup($siswa);
+        $awal = $group['start'];
+        $akhir = $group['finish'];
+
+        try {
+            $awal = new DateTime($awal);
+            $akhirGrup = new DateTime($akhir); // Akhir dari grup
+            $tanggalAkhir = new DateTime($tanggalAkhir);
+
+            // Validasi: Pastikan tanggal akhir berada dalam range
+            if ($tanggalAkhir < $awal || $tanggalAkhir > $akhirGrup) {
+                $_SESSION['flash'] = [
+                    'type' => 'error',
+                    'message' => 'Pembuatan aktivitas gagal!, Tanggal yang dimasukan berada diluar jadwal grup.',
+                ];
+                return true;
+            }
+
+            return false;
+        } catch (Exception $e) {
+            // Kembalikan pesan kesalahan
+            return "Terjadi kesalahan: " . $e->getMessage();
+        }
+    }
+
+
 
 
 

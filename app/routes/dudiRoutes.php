@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../controllers/DudiController.php';
 require_once __DIR__ . '/../controllers/ActivityController.php';
 require_once __DIR__ . '/../controllers/StudentController.php';
+require_once __DIR__ . '/../controllers/EvaluationController.php';
 
 function handleDudiRoutes($path, $queryParams)
 {
@@ -58,8 +59,8 @@ function handleDudiRoutes($path, $queryParams)
         case '/dudi/kegiatan':
             // session_start();
 
-            if (isset($_POST['id'])) {
-                $_SESSION['nis'] = $_POST['id'];
+            if (isset($_POST['nis'])) {
+                $_SESSION['nis'] = $_POST['nis'];
             }
 
             $method = $_SERVER['REQUEST_METHOD'];
@@ -67,10 +68,10 @@ function handleDudiRoutes($path, $queryParams)
             $controller = new ActivityController();
 
             if ($method === 'GET') {
-                $controller->indexDudi($queryParams);
+                $controller->indexDudi($overrideMethod);
             } elseif ($method === 'POST') {
-                $controller->handle($queryParams);
-                $controller->indexDudi($queryParams);
+                $controller->handle($overrideMethod);
+                // $controller->indexDudi($overrideMethod);
             } else {
                 http_response_code(405);
             }
@@ -84,6 +85,20 @@ function handleDudiRoutes($path, $queryParams)
                 $controller->indexDudi($queryParams);
             } elseif ($method === 'POST') {
                 $controller->handle($overrideMethod);
+            } else {
+                http_response_code(405);
+            }
+            break;
+        case '/dudi/penilaian':
+            $method = $_SERVER['REQUEST_METHOD'];
+            $overrideMethod = $_POST['_method'] ?? null;
+            $controller = new EvaluationController();
+
+            if ($method === 'GET') {
+                $controller->show($queryParams);
+            } elseif ($method === 'POST') {
+                $controller->show($queryParams);
+                // $controller->handle($overrideMethod);
             } else {
                 http_response_code(405);
             }

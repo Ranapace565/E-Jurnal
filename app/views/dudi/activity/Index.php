@@ -4,7 +4,12 @@
     <?php require_once __DIR__ . '/../../components/dudi-navbar.php'; ?>
     <header class="bg-white shadow">
         <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Kelola Kegiatan</h1>
+            <?php foreach ($activitys as $activity) : ?>
+
+
+                <?php $nama = $activity['student_name']; ?>
+            <?php endforeach ?>
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900">Kelola Kegiatan <?php $nama ?></h1>
         </div>
     </header>
 

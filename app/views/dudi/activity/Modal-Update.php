@@ -16,8 +16,8 @@
       <div class="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2 p-4 md:p-">
         <div class="col-span-2">
           <!-- form -->
-          <form action="/dudi/kegiatan" method="POST">
-            <input type="hidden" name="_method" value="UPDATE">
+          <form action="/dudi/kegiatan#main" method="POST">
+            <input type="hidden" name="_method" value="APPROVE">
             <input type="hidden" name="id" value="<?= htmlspecialchars($activity['id']); ?>">
             <div class="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
 
@@ -68,7 +68,7 @@
                   <label for="inline-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Proses</label>
                 </div> -->
 
-                <div class="flex items-center me-4">
+                <div class="flex items-center me-4 mb-2">
                   <input id="inline-2-radio" type="radio" value="1" name="approve"
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                     <?= $activity['approve'] === 1 ? 'checked' : ''; ?>>

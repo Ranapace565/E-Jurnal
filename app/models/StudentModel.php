@@ -473,6 +473,8 @@ class StudentModel
             require_once __DIR__ . '/ObservationModel.php';
             $observation = new ObservationModel();
             $observation->createObservation($this->pdo, $student_id);
+            $practice = new EvaluationModel();
+            $practice->createPractice($student_id);
 
             return $student_id;
         } catch (PDOException $e) {

@@ -70,11 +70,12 @@
                         <tbody>
                             <?php foreach ($students as $student): ?>
                                 <tr class="border-b dark:border-gray-700">
+                                    <?php $aktivitas = (new ActivityModel())->countAll($student['nis']); ?>
                                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <?= htmlspecialchars($student['nis']); ?>
                                     </th>
                                     <td class="px-4 py-3"><?= htmlspecialchars($student['nama']); ?></td>
-                                    <td class="px-4 py-3"><?= htmlspecialchars($student['nama']); ?></td>
+                                    <td class="px-4 py-3"><?= htmlspecialchars($aktivitas); ?> Aktivitas</td>
                                     <td class="px-4 py-3"><?= htmlspecialchars($student['kelamin']); ?></td>
                                     <td class="px-4 py-3"><?= htmlspecialchars($student['pembimbing']); ?></td>
                                     <td class="px-4 py-3"><?= htmlspecialchars($student['alamat']); ?></td>
@@ -107,10 +108,11 @@
                                                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Data Siswa</a>
                                                 </li>
                                                 <li>
-                                                    <form action="/dudi/kegiatan" method="POST">
-                                                        <input type="hidden" name="_method" value="INDEX">
-                                                        <input type="hidden" name="id" value="<?= htmlspecialchars($student['nis']); ?>">
-                                                        <button class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Kegiatan</button>
+
+                                                    <form action="/dudi/kegiatan" method="POST" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                        <input type="hidden" name="_method" value="SHOW">
+                                                        <input type="hidden" name="nis" value="<?= htmlspecialchars($student['nis']); ?>">
+                                                        <button class="block hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Kegiatan</button>
                                                     </form>
                                                 </li>
                                                 <li>
@@ -119,9 +121,14 @@
                                                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Observasi</a>
                                                 </li>
                                                 <li>
-                                                    <a
+                                                    <form action="/dudi/penilaian" method="POST" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                        <input type="hidden" name="_method" value="SHOW">
+                                                        <input type="hidden" name="nis" value="<?= htmlspecialchars($student['nis']); ?>">
+                                                        <button class="block hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Penilaian</button>
+                                                    </form>
+                                                    <!-- <a
                                                         href="/dudi/penilaian?id=<?= htmlspecialchars($student['nis']); ?>"
-                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Penilaian</a>
+                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Penilaian</a> -->
                                                 </li>
                                             </ul>
                                         </div>

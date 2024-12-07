@@ -4,56 +4,6 @@ require_once __DIR__ . '/../../config/database.php';
 
 class ObservationModel
 {
-    public static function getAll($search = '')
-    {
-        $pdo = Database::getConnection();
-        $pdo = Database::getConnection();
-        $query = "
-        SELECT 
-            students.id AS nis, 
-            COALESCE(students.name, '') AS nama, 
-            COALESCE(students.expertise, '') AS prodi, 
-            COALESCE(idukas.name, '') AS dudi, 
-            COALESCE(mentors.name, '') AS pembimbing, 
-            COALESCE(users.username, '') AS username,
-            COALESCE(students.sex, '') AS kelamin,
-            COALESCE(students.address, '') AS alamat
-        FROM students
-        LEFT JOIN groups ON students.group_id = groups.id
-        LEFT JOIN idukas ON groups.iduka_id = idukas.id
-        LEFT JOIN mentors ON groups.nip = mentors.id
-        LEFT JOIN users ON students.user_id = users.id
-    ";
-
-        // Urutan relevansi tanpa memfilter
-        if (!empty($search)) {
-
-            $query .= " ORDER BY 
-                    CASE 
-                        WHEN students.id LIKE :search THEN 1
-                        WHEN students.name LIKE :search THEN 1
-                        WHEN students.expertise LIKE :search THEN 1
-                        WHEN idukas.name LIKE :search THEN 1
-                        WHEN users.username LIKE :search THEN 1
-                        WHEN mentors.name LIKE :search THEN 1
-                        ELSE 2
-                    END, 
-                    students.id ASC";
-        } else {
-            $query .= " ORDER BY students.id ASC";  // Default sorting jika tidak ada pencarian
-        }
-
-        $stmt = $pdo->prepare($query);
-
-        if (!empty($search)) {
-            $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
-        }
-
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // koreksi
     public function createObservation($pdo, $student_id)
     {
         $stmt = $pdo->prepare("INSERT INTO observations (id, nis) VALUES (:id, :nis)");
@@ -122,16 +72,6 @@ class ObservationModel
             $stmt->bindParam(':description', $note['note']);
             $stmt->execute();
         }
-    }
-
-    public static function update($id, $nis, $name)
-    {
-        $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("UPDATE students SET id = :nis, name = :name WHERE id = :id");
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':nis', $nis);
-        $stmt->bindParam(':name', $name);
-        return $stmt->execute();
     }
 
     public static function delete($id)
