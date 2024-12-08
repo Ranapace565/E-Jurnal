@@ -1758,6 +1758,10 @@ input:checked + .toggle-bg {
   grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -1820,6 +1824,10 @@ input:checked + .toggle-bg {
 
 .gap-6 {
   gap: 1.5rem;
+}
+
+.gap-1 {
+  gap: 0.25rem;
 }
 
 .gap-x-3 {

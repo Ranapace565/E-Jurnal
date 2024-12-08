@@ -54,7 +54,7 @@
                                                     <div class="flex">
                                                         <h2>Capai :</h2>
                                                         <label for="" class="<?= $indictory['achievement'] == 2 ? 'text-red-700' : 'YA'; ?>">
-                                                            <?= $indictory['achievement'] == 2 ? 'Tidak' : 'YA'; ?>
+                                                            <?= $indictory['achievement'] == 2 ? 'Tidak' : 'Ya'; ?>
                                                         </label>
                                                     </div>
                                                 </div>

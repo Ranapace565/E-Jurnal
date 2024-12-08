@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../controllers/DudiController.php';
+require_once __DIR__ . '/../controllers/DUDIController.php';
 require_once __DIR__ . '/../controllers/ActivityController.php';
 require_once __DIR__ . '/../controllers/StudentController.php';
 require_once __DIR__ . '/../controllers/EvaluationController.php';

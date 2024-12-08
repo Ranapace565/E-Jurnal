@@ -17,14 +17,15 @@ require_once __DIR__ . '/../app/routes/dudiRoutes.php';
 require_once __DIR__ . '/../app/routes/mentorRoutes.php';
 require_once __DIR__ . '/../app/routes/studentRoutes.php';
 require_once __DIR__ . '/../app/routes/loginRoutes.php';
-require_once __DIR__ . '/../app/routes/DudiRoutes.php';
+// require_once __DIR__ . '/../app/routes/DudiRoutes.php';
 require_once __DIR__ . '/../app/routes/landingpageRoutes.php';
 
 switch (true) {
 
-        // case preg_match('#^/landingpage#', $path):
-        //     handleLandingpageRoutes($path, $queryParams);
-        //     break;
+    case preg_match('#^/$#', $path):
+        // Redirect ke /login
+        header('Location: /login');
+        break;
     case preg_match('#^/login#', $path):
         handleLoginRoutes($path, $queryParams);
         break;

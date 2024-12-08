@@ -43,6 +43,34 @@ class EvaluationController
         require_once __DIR__ . '/../views/dudi/evaluation/Index.php';
     }
 
+    public function show2()
+    {
+        $nis = $_SESSION['user']['id'];
+
+        $siswa = new StudentModel();
+
+        $nis = $siswa->show($nis);
+
+        $siswa = $siswa->getById($nis['id']);
+
+        $student_id = $nis['id'];
+
+
+        $siswa = new StudentModel();
+        $siswa = $siswa->getById($student_id);
+
+        $obser = new ObservationModel();
+
+        $observation = $obser->getObservation($student_id);
+
+        $evaluation = EvaluationModel::PracticeByStd($student_id);
+        $learnings = EvaluationModel::LearningStd($evaluation['id']);
+        $precences = EvaluationModel::PresenceStd($evaluation['id']);
+
+        $flash = $_SESSION['flash'] ?? null;
+        require_once __DIR__ . '/../views/student/evaluation/Index.php';
+    }
+
 
     public function update()
     {

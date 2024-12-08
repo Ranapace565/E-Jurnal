@@ -25,7 +25,7 @@
                     <h1 class="text-xl">Nama :<?= htmlspecialchars($siswa['nama']); ?></h1>
                     <!-- <?= htmlspecialchars($siswa['nama']); ?> -->
                 </b>
-                <di class="mt-6 ">
+                <div class="mt-6 ">
 
                     <dl class="divide-y ">
                         <form action="/dudi/observasi" method="POST">
@@ -96,8 +96,8 @@
                             </div>
                         </form>
                     </dl>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </body>

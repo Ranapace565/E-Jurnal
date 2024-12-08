@@ -6,6 +6,7 @@ require_once __DIR__ . '/../controllers/DUDIController.php';
 require_once __DIR__ . '/../controllers/MentorController.php';
 require_once __DIR__ . '/../controllers/GroupController.php';
 require_once __DIR__ . '/../controllers/ProfileController.php';
+require_once __DIR__ . '/../controllers/EvaluationController.php';
 
 function handleStudentRoutes($path, $queryParams)
 {
@@ -79,10 +80,10 @@ function handleStudentRoutes($path, $queryParams)
         case '/siswa/penilaian':
             $method = $_SERVER['REQUEST_METHOD'];
             $overrideMethod = $_POST['_method'] ?? null;
-            $controller = new GroupController();
+            $controller = new EvaluationController();
 
             if ($method === 'GET') {
-                $controller->index($queryParams);
+                $controller->show2();
             } elseif ($method === 'POST') {
                 $controller->handle($overrideMethod);
             } else {
