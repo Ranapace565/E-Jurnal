@@ -66,10 +66,10 @@ function handleStudentRoutes($path, $queryParams)
         case '/siswa/observasi':
             $method = $_SERVER['REQUEST_METHOD'];
             $overrideMethod = $_POST['_method'] ?? null;
-            $controller = new MentorController();
+            $controller = new ObservationController();
 
             if ($method === 'GET') {
-                $controller->index($queryParams);
+                $controller->showStudent();
             } elseif ($method === 'POST') {
                 $controller->handle($overrideMethod);
             } else {

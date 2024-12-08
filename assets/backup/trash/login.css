@@ -1,0 +1,286 @@
+body {
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: "DM Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+}
+
+/* .navLogin{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navLogin a{
+    color: #162F83;
+    font-size: 18px;
+    margin-right: 2rem;
+    text-decoration: none;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.navLogin a:hover{
+    background-color: rgb(225, 225, 225);
+    color: #021243;
+    border-radius: 5px;
+    transition: 1.2s;
+} */
+
+.section1 {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 95%;
+  justify-content: center;
+  align-items: center;
+}
+
+footer {
+  display: flex;
+  justify-content: end;
+  margin-top: 0;
+  height: 5%;
+  width: 100%;
+}
+
+footer a {
+  color: white;
+  font-weight: bold;
+  z-index: 2;
+  margin-right: 6rem;
+  text-decoration: none;
+}
+
+footer a span {
+  color: white;
+  font-weight: normal;
+  z-index: 2;
+  /* margin-right: 2rem; */
+  text-decoration: none;
+}
+
+footer a:hover,
+footer a span:hover {
+  color: yellow;
+  transition: 0.6s;
+}
+
+/* .section1::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 180%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+} */
+
+.card-section1 {
+  border-radius: 20px;
+  background-color: rgba(0, 15, 62, 70%);
+  width: 715px;
+  height: auto;
+  margin-top: 20px;
+  margin-bottom: 4rem;
+  padding-bottom: 4rem;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 4px 4px 40px 16px rgb(2, 18, 67, 43%);
+}
+
+.container {
+  display: grid;
+  align-items: self-start;
+  width: auto;
+  height: auto;
+  padding-top: 40px;
+  padding-left: 102px;
+  padding-right: 102px;
+}
+
+.contentLogin {
+  display: grid;
+  text-align: center;
+  margin-top: 2px;
+  color: white;
+}
+
+.h1-content {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.contentLogin p {
+  margin-top: 23px;
+  font-size: 20px;
+  font-weight: lighter;
+}
+
+.formLogin {
+  display: grid;
+  margin-top: 0.5rem;
+}
+
+.formLogin input {
+  border-radius: 10px;
+  border: none;
+  border-style: none;
+  height: 44px;
+  width: 100%;
+  background-color: white;
+  color: black;
+  padding-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.formLogin label {
+  font-size: 20px;
+  color: white;
+}
+
+.formLogin input {
+  height: 50px;
+  width: auto;
+  font-size: 16px;
+  font-weight: normal;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.coverBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnLogin {
+  align-self: center;
+  margin-top: 120px;
+  border-radius: 10px;
+  background-color: white;
+  color: #162f83;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btnLogin:hover {
+  color: white;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+.btnLogin::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+  z-index: -1;
+  background-color: #162f83;
+  border-radius: 0 0 50% 50%;
+  transition: 0.3s;
+}
+
+.btnLogin:hover::before {
+  height: 180%;
+}
+
+.btnLogin:active {
+  color: #c0c0c0;
+}
+
+.btnLogin:active::before {
+  background-color: #102465;
+}
+
+.container-link {
+  display: flex;
+  justify-content: space-between;
+}
+
+.link-lupasandi {
+  font-size: 16px;
+  font-weight: normal;
+  color: white;
+  text-decoration: none;
+}
+
+.container-link label {
+  font-size: 16px;
+  font-weight: normal;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  margin: 0;
+  margin-right: 1rem;
+  width: 20px;
+  height: 20px;
+  accent-color: #4caf50; /* Mengubah warna */
+  transition: 1.5s;
+}
+
+.blackDisplay-login {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 8, 31, 0.687);
+}
+
+.container-link a:hover {
+  color: rgb(212, 212, 212);
+}
+
+.container-link a:active {
+  color: rgb(151, 151, 151);
+}
+
+@media screen and (max-width: 725px) {
+  .card-section1 {
+    width: 515px;
+  }
+
+  .container {
+    padding-top: 30px;
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  .contentLogin p {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 507px) {
+  .card-section1 {
+    width: 415px;
+  }
+
+  .container {
+    padding-top: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}

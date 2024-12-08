@@ -22,9 +22,9 @@ require_once __DIR__ . '/../app/routes/landingpageRoutes.php';
 
 switch (true) {
 
-    case preg_match('#^/landingpage#', $path):
-        handleLandingpageRoutes($path, $queryParams);
-        break;
+        // case preg_match('#^/landingpage#', $path):
+        //     handleLandingpageRoutes($path, $queryParams);
+        //     break;
     case preg_match('#^/login#', $path):
         handleLoginRoutes($path, $queryParams);
         break;

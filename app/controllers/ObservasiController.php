@@ -49,6 +49,38 @@ class ObservationController
         require_once __DIR__ . '/../views/dudi/observasi/Index.php';
     }
 
+    public function showStudent()
+    {
+        $nis = $_SESSION['user']['id'];
+
+        $siswa = new StudentModel();
+
+        $nis = $siswa->show($nis);
+
+        $siswa = $siswa->getById($nis['id']);
+
+        $student_id = $nis['id'];
+        // echo $nis['id'];
+
+        $obser = new ObservationModel();
+
+        // Ambil data observasi
+        $observation = $obser->getObservation($student_id);
+
+        // Ambil data indikator berdasarkan observasi
+        $indicators = $obser->getIndicators($observation['id']);
+
+        // Ambil data indicatories berdasarkan semua `indicators_id`
+        $indicator_ids = array_column($indicators, 'id'); // Dapatkan semua ID indikator
+        $indicatories = $obser->getIndictories($indicator_ids);
+
+        // Ambil catatan berdasarkan observasi
+        $notes = $obser->getNotes($observation['id']);
+
+
+        require_once __DIR__ . '/../views/student/observation/Index.php';
+    }
+
 
     public function update()
     {

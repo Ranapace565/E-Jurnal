@@ -103,9 +103,14 @@
                                                 class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                                 aria-labelledby="apple-imac-27-dropdown-button">
                                                 <li>
-                                                    <a
+                                                    <form action="/dudi/informasi-siswa" method="POST" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                        <input type="hidden" name="_method" value="DETAIL">
+                                                        <input type="hidden" name="nis" value="<?= htmlspecialchars($student['nis']); ?>">
+                                                        <button class="block hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Informasi Siswa</button>
+                                                    </form>
+                                                    <!-- <a
                                                         href="/dudi/detail-siswa?id=<?= htmlspecialchars($student['nis']); ?>"
-                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Data Siswa</a>
+                                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Data Siswa</a> -->
                                                 </li>
                                                 <li>
                                                     <form action="/dudi/kegiatan" method="POST" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">

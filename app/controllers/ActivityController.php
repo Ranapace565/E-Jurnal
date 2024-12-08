@@ -172,10 +172,16 @@ class ActivityController
         $tanggal = $_POST['tanggal'];
         $aktivitas = $_POST['kegiatan'];
         $detail = $_POST['detail'];
+
         if (isset($_POST['approve'])) {
             $approve = $_POST['approve'];
         } else {
             $approve = 3;
+        }
+
+        if (ActivityModel::TrueWeek($id, $tanggal)) {
+            $this->index([]);
+            exit;
         }
 
         $update = new ActivityModel;

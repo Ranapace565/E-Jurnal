@@ -37,9 +37,16 @@ class UserController
 
         if ($user) {
             $_SESSION['user'] = $user; // Simpan data pengguna di sesi
+            $_SESSION['flash'] = [
+                'type' => 'succes',
+                'message' => 'Login berhasil'
+            ];
             $this->redirectUser($user['role']);
         } else {
-            $_SESSION['flash'] = ['type' => 'error', 'message' => 'Username atau password salah'];
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Username atau password salah'
+            ];
             header('Location: /login'); // Redirect kembali ke login
             exit;
         }

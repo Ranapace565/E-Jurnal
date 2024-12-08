@@ -19,6 +19,9 @@ class StudentController
             case 'UPDATE':
                 $this->update();
                 break;
+            case 'DETAIL':
+                $this->detail();
+                break;
             case 'DELETE':
                 $this->delete();
                 break;
@@ -238,5 +241,20 @@ class StudentController
         $flash = $_SESSION['flash'] ?? null;
 
         require_once __DIR__ . '/../views/student/profile/Index.php';
+    }
+
+    public function detail()
+    {
+        // $id = $_SESSION['id'];
+        $id = $_POST['nis'];
+
+        $id = (new StudentModel())->getById($id);
+
+        $data = (new StudentModel())->show($id['user_id']);
+
+        $file = (new ProfileModel())->findFoto($id['user_id']);
+
+        $flash = $_SESSION['flash'] ?? null;
+        require_once __DIR__ . '/../views/dudi/students/Show.php';
     }
 }

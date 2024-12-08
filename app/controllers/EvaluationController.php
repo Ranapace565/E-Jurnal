@@ -91,6 +91,16 @@ class EvaluationController
         $izin = $_POST['izin'];
         $bolos = $_POST['bolos'];
 
+        if ($sakit < 0) {
+            $sakit = 0;
+        }
+        if ($izin < 0) {
+            $izin = 0;
+        }
+        if ($bolos < 0) {
+            $bolos = 0;
+        }
+
         EvaluationModel::update2($id, $sakit, $izin, $bolos);
 
         $this->show();

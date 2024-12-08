@@ -86,6 +86,22 @@ function handleDudiRoutes($path, $queryParams)
                 http_response_code(405);
             }
             break;
+        case '/dudi/informasi-siswa':
+            $method = $_SERVER['REQUEST_METHOD'];
+            $overrideMethod = $_POST['_method'] ?? null;
+            $controller = new StudentController();
+
+            if ($method === 'GET') {
+                $controller->indexDudi($queryParams);
+            } elseif ($method === 'POST') {
+                $controller->handle($overrideMethod);
+                // require_once __DIR__ . '/../views/dudi/students/Show.php';
+            } else {
+                http_response_code(405);
+            }
+            break;
+
+
         case '/dudi/penilaian':
             $method = $_SERVER['REQUEST_METHOD'];
             $overrideMethod = $_POST['_method'] ?? null;

@@ -17,7 +17,7 @@
 
             <h2 class="text-2xl flex justify-center w-full mb-4" id="identitas">
                 <b>
-                    Identitas Siswa
+                    Identitas Instansi
                 </b>
             </h2>
             <?php include __DIR__ . '/Upload-Foto2.php' ?>
