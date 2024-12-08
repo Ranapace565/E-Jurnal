@@ -86,8 +86,11 @@ class DudiModel
         try {
             // Persiapan query menggunakan prepared statement
             $stmt = $this->pdo->prepare("
-            SELECT   
-                COALESCE(idukas.name, '') AS nama, 
+            SELECT  
+                idukas.id,
+                COALESCE(idukas.name, '') AS nama,
+                COALESCE(idukas.address, '') AS alamat, 
+                COALESCE(idukas.mentor, '') AS mentor,
                 COALESCE(users.username, '') AS username,
                 COALESCE(users.id, '') AS user_id,
                 COALESCE(users.password, '') AS password
@@ -293,6 +296,29 @@ class DudiModel
         }
     }
 
+    public static function update($id, $nama, $alamat, $mentor)
+    {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("UPDATE idukas SET name = :nama, address = :alamat, mentor = :mentor WHERE id = :id");
+            $stmt->bindParam(':nama', $nama);
+            $stmt->bindParam(':alamat', $alamat);
+            $stmt->bindParam(':mentor', $mentor);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            $_SESSION['flash'] = [
+                'type' => 'success',
+                'message' => "Update data berhasil"
+            ];
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => "Terjadi kesalahan update Data: " . $e->getMessage(),
+            ];
+        }
+    }
+
     public function resetAkses($id)
     {
         try {
@@ -309,7 +335,6 @@ class DudiModel
             // Membuat password baru
             $password = 'password_' . $namaF;
 
-            // Update akun pengguna
             $result = AkunModel::update($dudi['user_id'], $namaF, $password);
 
             if ($result) {

@@ -51,10 +51,24 @@ function handleDudiRoutes($path, $queryParams)
             $controller = new ActivityController();
 
             if ($method === 'GET') {
-                $controller->indexDudi($overrideMethod);
+                $controller->indexDudi($queryParams);
             } elseif ($method === 'POST') {
                 $controller->handle($overrideMethod);
                 // $controller->indexDudi($overrideMethod);
+            } else {
+                http_response_code(405);
+            }
+            break;
+        case '/dudi/profile':
+
+            $method = $_SERVER['REQUEST_METHOD'];
+            $overrideMethod = $_POST['_method'] ?? null;
+            $controller = new DudiController();
+
+            if ($method === 'GET') {
+                $controller->show();
+            } elseif ($method === 'POST') {
+                $controller->handle($overrideMethod);
             } else {
                 http_response_code(405);
             }

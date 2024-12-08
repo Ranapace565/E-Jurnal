@@ -71,8 +71,6 @@ class ActivityController
 
         $approve = $queryParams['approve'] ?? '';
 
-        echo $approve;
-
         $currentPage = isset($queryParams['page']) ? (int)$queryParams['page'] : 1;
 
         $limit = 10;

@@ -10,9 +10,19 @@ class DudiController
     public function handle($overrideMethod)
     {
         switch ($overrideMethod) {
-                // case 'GROUP':
-                //     $this->groupDudi();
-                //     break;
+            case 'AKSES':
+                $akses = new UserController;
+                $akses->update();
+                $this->show();
+                break;
+            case 'UPLOAD':
+                $foto = new ProfileController;
+                $foto->upload();
+                $this->show();
+                break;
+            case 'UPDATE':
+                $this->update();
+                break;
             case 'CREATE':
                 $this->create();
                 break;
@@ -58,8 +68,6 @@ class DudiController
         require_once __DIR__ . '/../views/dudi/group/Index.php';
     }
 
-
-    // getByDudi($id)
     public function create()
     {
 
@@ -90,5 +98,31 @@ class DudiController
         // header('Location: /admin/data-');
         $this->index([]);
         exit;
+    }
+
+    public function show()
+    {
+        $id = $_SESSION['user']['id'];
+        $data = (new DUDIModel())->show($id);
+
+        $file = (new ProfileModel())->findFoto($id);
+
+        $flash = $_SESSION['flash'] ?? null;
+
+        require_once __DIR__ . '/../views/dudi/profile/Index.php';
+    }
+
+    public function update()
+    {
+        $id = $_POST['id'];
+        $nama = $_POST['nama'];
+        $alamat = $_POST['alamat'];
+        $mentor = $_POST['mentor'];
+
+        // echo $id;
+
+        $result = DUDIModel::update($id, $nama, $alamat, $mentor);
+
+        $this->show();
     }
 }
