@@ -1,0 +1,264 @@
+*{
+    margin: 0;
+    padding: 0 ;
+    scroll-behavior: smooth;
+    font-family: "DM Sans", sans-serif;
+    /* border: 2px solid orange; */
+}
+
+.navSiswa{
+    position: fixed;
+    width: 100%;
+    height: auto;
+    z-index: 3;
+    transition: 0.5s;
+}
+
+.header-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 4rem;
+    padding-top: 10rem;
+}
+
+
+
+.header-section h1{
+    font-size: 64px;
+    font-weight: bold;
+    padding-top: 4rem;
+    margin-top: 8rem;
+}
+
+.profil{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profil::before{
+    content: '';
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 28%;
+    background-color: #434F65;
+    z-index: -1;
+    border-radius: 0 0 20% 20%/0 0 50% 50%;
+}
+
+.profil img{
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    margin-top: 8rem;
+}
+
+.content-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content1, .content2, .content3, .content4, .content5, .content6{
+    display: flex;
+    flex-direction: column;
+    width: 940px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 10px rgba(0, 0, 0, 15%);
+    margin-top: 4rem;
+    overflow: hidden;
+}
+
+h2{
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem;
+    background-color: #434F65;
+    color: white;
+}
+
+.container-content1, .container-content2, .container-content3, .container-content4, .container-content5, .container-content6{
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+    padding-top: 5px;
+}
+
+.child-container1, .child-container2, .child-container3{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.child-container1 img, .child-container2 img, .child-container3 img, .content4 img{
+    width: 15px;
+    height: 15px;
+}
+
+.deskripsi{
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.container-content1 textarea, .container-content2 textarea, .container-content3 textarea, .container-content5 textarea, .container-content6 textarea{
+    border: none;
+    border-radius: 10px;
+    height: 113px;
+    width: auto;
+    background-color: #E4E4E4;
+}
+
+.content4{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #434F65;
+}
+
+.content4 h2{
+    margin-left: 1rem;
+    text-align: start;
+    width: auto;
+}
+
+.content4 img{
+    margin-right: 2rem;
+}
+
+.container-content5 textarea, .container-content6 textarea{
+    background-color: white;
+}
+
+.content-button{
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.deskripsiPanduan{
+    display: flex;
+    text-align: center;
+    font-size: 32px;
+    width: 980px;
+    padding-bottom: 8rem;
+    padding-top: 8rem;
+}
+
+.btnCetakSertif{
+    width: 980px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 8rem;
+    border-style: none;
+    border: 2px solid black;
+    border-radius: 100px;
+    background: white;
+    text-decoration: none;
+    color: black;
+    font-size: 24px;
+}
+
+.btnCetakSertif:hover{
+    background-color: black;
+    color: white;
+    transition: 0.6s;
+}
+
+@media screen and (max-width: 980px) {
+    .content1, .content2, .content3, .content4, .content5, .content6{
+        width: 740px;
+    }
+
+    .deskripsiPanduan{
+        width: 780px;
+        font-size: 24px;
+    }
+    
+    .btnCetakSertif{
+        width: 780px;
+    }
+
+    .header-section h1{
+        font-size: 60px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .content1, .content2, .content3, .content4, .content5, .content6{
+        width: 540px;
+    }
+    
+    .deskripsiPanduan{
+        width: 580px;
+        font-size: 24px;
+    }
+    
+    .btnCetakSertif{
+        width: 580px;
+        font-size: 18px;
+    }
+
+    .header-section h1{
+        font-size: 40px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .content1, .content2, .content3, .content4, .content5, .content6{
+        width: 440px;
+    }
+    
+    .deskripsiPanduan{
+        width: 380px;
+        font-size: 18px;
+    }
+    
+    .btnCetakSertif{
+        width: 380px;
+    }
+
+    .container-content5 textarea, .container-content6 textarea{
+        height:200px;
+    }
+
+    .profil::before{
+        border-radius: 0 0 20% 20%/0 0 40% 40%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .content1, .content2, .content3, .content4, .content5, .content6{
+        width: 340px;
+    }
+    
+    .deskripsiPanduan{
+        width: 280px;
+        font-size: 16px;
+    }
+    
+    .btnCetakSertif{
+        width: 280px;
+    }
+
+    .container-content5 textarea, .container-content6 textarea{
+        height:200px;
+    }
+
+}

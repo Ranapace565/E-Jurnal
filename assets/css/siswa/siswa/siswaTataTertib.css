@@ -1,0 +1,94 @@
+*{
+    margin: 0;
+    padding: 0 ;
+    scroll-behavior: smooth;
+    font-family: "DM Sans", sans-serif;
+}
+
+html, body{
+    overflow-x: hidden;
+}
+
+.navSiswa{
+    position: fixed;
+    width: 100%;
+    height: auto;
+    z-index: 3;
+    transition: 0.5s;
+}
+
+.section1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    margin-bottom: 6rem;
+}
+
+.h1-section1{
+    font-size: 64px;
+    text-align: center;
+    padding: 4rem;
+    color: white;
+    margin-top: 5rem;
+}
+
+.div-section1{
+    border-radius: 20px;
+    box-shadow: 0 4px 20px 10px rgba(0, 0, 0, 25%);
+    padding: 2rem;
+    z-index: 1;
+    background-color: white;
+}
+
+.div-section1 p{
+    width: 620px;
+    font-size: 20px;
+}
+
+.div-section1 p span{
+    font-weight: bold;
+}
+
+.bgBlue{
+    content: "";
+    position: absolute;
+    align-items: center;
+    left: -25%;
+    top: 0;
+    width: 150%;
+    height: 40%;
+    z-index: -1;
+    background-color: #434F65;
+    border-radius: 0 0 30% 30%/0 0 70% 70%;
+}
+
+footer{
+    width: auto;
+}
+
+@media screen and (max-width: 710px ){
+    .div-section1 p {
+        width: 420px;
+        font-size: 16px;
+    }
+
+    .h1-section1 {
+        font-size: 52px;
+        padding: 3rem;
+    }
+}
+
+@media screen and (max-width: 500px ){
+    .div-section1 p {
+        width: 294px;
+        font-size: 14px;
+    }
+
+    .h1-section1 {
+        font-size: 32px;
+        padding: 2rem;
+    }
+}

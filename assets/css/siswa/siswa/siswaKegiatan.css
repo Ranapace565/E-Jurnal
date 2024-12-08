@@ -1,0 +1,260 @@
+*{
+    margin: 0;
+    padding: 0 ;
+    scroll-behavior: smooth;
+    font-family: "DM Sans", sans-serif;
+}
+
+.navSiswa{
+    position: fixed;
+    width: 100%;
+    height: auto;
+    z-index: 3;
+    transition: 0.5s;
+}
+
+section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    font-size: 64px;
+    text-align: center;
+    padding: 4rem;
+    margin-top: 4rem;
+}
+
+.divSearch{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 940px;
+}
+
+.divSearch input{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    border-radius: 100px;
+    border-style: none;
+    border: 2px solid black;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.divSearch a{
+    font-size: 20px;
+    margin-left: 1rem;
+    text-decoration: none;
+    color: #434F65;
+}
+
+table{
+    width: 940px;
+    height: 498px;
+    border-radius: 20px;
+    border-collapse: collapse;
+    border: 2px solid white;
+    margin-top: 2rem;
+    overflow: hidden;
+    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 25%);
+}
+
+    table th,
+    table td {
+    padding: 8px;
+    text-align: left;
+    /* border: 1px solid #ddd; */
+    }
+
+    table th {
+        background-color: #434F65;
+        color: white;
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    table td {
+        font-size: 12px;
+        font-weight: normal;
+    }
+
+    table td:last-child {
+    text-align: center;
+    }
+
+    table td:last-child:before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #4CAF50;
+    margin-right: 5px;
+    }
+
+    table td:last-child.status-failed:before {
+    background-color: #f44336;
+    }
+
+    table td:last-child.status-pending:before {
+    background-color: #ffeb3b;
+    }
+
+.section-informasi{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 4rem;
+}    
+
+.judul{
+    width: 940px;
+    font-size: 48px;
+    padding-top: 4rem;
+    padding-bottom: 1rem;
+    text-align: left;
+    color: #434F65;
+}
+
+.container-informasi{
+    display: flex;
+    justify-content: space-evenly;
+    width: 890px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 25%);
+    padding: 2rem;
+}
+
+.content-informasi{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.line{
+    content: "";
+    width: 3px;
+    background-color: #BFBFBF;
+}
+
+.content-informasi p{
+    font-size: 20px;
+}
+
+.content-informasi h2{
+    font-size: 48px;
+}
+
+
+
+@media screen and (max-width: 980px ){
+    .divSearch {
+        width: 630px;
+    }
+
+    h1 {
+        font-size: 44px;
+    }
+
+    table {
+        width: 639px;
+    }
+
+    .judul {
+        width: 650px;
+        font-size: 28px;
+    }
+
+    .container-informasi {
+        width: 589px;
+    }
+}
+
+@media screen and (max-width: 660px ){
+    .divSearch {
+        width: 400px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    table {
+        width: 400px;
+    }
+
+    .judul {
+        width: 400px;
+        font-size: 20px;
+    }
+
+    .container-informasi {
+        width: 339px;
+    }
+
+    .content-informasi p{
+        font-size: 12px;
+    }
+    
+    .content-informasi h2{
+        font-size: 38px;
+    }
+}
+
+@media screen and (max-width: 660px ){
+    .divSearch {
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 32px;
+        padding: 2rem;
+    }
+
+    table {
+        width: 90%;
+    }
+
+    .judul {
+        width: 90%;
+        font-size: 16px;
+    }
+
+    .container-informasi {
+        width: 85%;
+        padding: 1rem;
+        margin-bottom: 10px;
+    }
+
+    .content-informasi p{
+        font-size: 12px;
+    }
+    
+    .content-informasi h2{
+        font-size: 28px;
+    }
+
+    .divSearch input {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    table th {
+        font-size: 12px;
+    }
+
+    table td {
+        font-size: 10px;
+    }
+}

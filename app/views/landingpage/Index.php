@@ -1,189 +1,144 @@
-<header class="bg-white">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <div class="flex lg:flex-1">
-            <a href="#" class="-m-1.5 p-1.5">
-                <span class="sr-only">Your Company</span>
-                <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="">
-            </a>
-        </div>
-        <div class="flex lg:hidden">
-            <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-                <span class="sr-only">Open main menu</span>
-                <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
-            </button>
-        </div>
-        <div class="hidden lg:flex lg:gap-x-12">
-            <div class="relative">
-                <button type="button" class="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900" aria-expanded="false">
-                    Product
-                    <svg class="size-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                        <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                    </svg>
-                </button>
+<!DOCTYPE html>
+<html lang="en">
 
-                <!--
-          'Product' flyout menu, show/hide based on flyout menu state.
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Jurnal SMekta</title>
+    <link rel="stylesheet" href="\assets\css\index.css">
+    <link rel="stylesheet" href="\assets\css\navbarIndex.css">
+    <link rel="stylesheet" href="\assets\css\footer.css">
+    <script src="\assets\js\index.js"></script>
+</head>
 
-          Entering: "transition ease-out duration-200"
-            From: "opacity-0 translate-y-1"
-            To: "opacity-100 translate-y-0"
-          Leaving: "transition ease-in duration-150"
-            From: "opacity-100 translate-y-0"
-            To: "opacity-0 translate-y-1"
-        -->
-                <div class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-                    <div class="p-4">
-                        <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
-                            <div class="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                                <svg class="size-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
-                                </svg>
-                            </div>
-                            <div class="flex-auto">
-                                <a href="#" class="block font-semibold text-gray-900">
-                                    Analytics
-                                    <span class="absolute inset-0"></span>
-                                </a>
-                                <p class="mt-1 text-gray-600">Get a better understanding of your traffic</p>
-                            </div>
-                        </div>
-                        <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
-                            <div class="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                                <svg class="size-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672 13.684 16.6m0 0-2.51 2.225.569-9.47 5.227 7.917-3.286-.672ZM12 2.25V4.5m5.834.166-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243-1.59-1.59" />
-                                </svg>
-                            </div>
-                            <div class="flex-auto">
-                                <a href="#" class="block font-semibold text-gray-900">
-                                    Engagement
-                                    <span class="absolute inset-0"></span>
-                                </a>
-                                <p class="mt-1 text-gray-600">Speak directly to your customers</p>
-                            </div>
-                        </div>
-                        <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
-                            <div class="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                                <svg class="size-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.864 4.243A7.5 7.5 0 0 1 19.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 0 0 4.5 10.5a7.464 7.464 0 0 1-1.15 3.993m1.989 3.559A11.209 11.209 0 0 0 8.25 10.5a3.75 3.75 0 1 1 7.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 0 1-3.6 9.75m6.633-4.596a18.666 18.666 0 0 1-2.485 5.33" />
-                                </svg>
-                            </div>
-                            <div class="flex-auto">
-                                <a href="#" class="block font-semibold text-gray-900">
-                                    Security
-                                    <span class="absolute inset-0"></span>
-                                </a>
-                                <p class="mt-1 text-gray-600">Your customers’ data will be safe and secure</p>
-                            </div>
-                        </div>
-                        <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
-                            <div class="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                                <svg class="size-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z" />
-                                </svg>
-                            </div>
-                            <div class="flex-auto">
-                                <a href="#" class="block font-semibold text-gray-900">
-                                    Integrations
-                                    <span class="absolute inset-0"></span>
-                                </a>
-                                <p class="mt-1 text-gray-600">Connect with third-party tools</p>
-                            </div>
-                        </div>
-                        <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
-                            <div class="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                                <svg class="size-6 text-gray-600 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                                </svg>
-                            </div>
-                            <div class="flex-auto">
-                                <a href="#" class="block font-semibold text-gray-900">
-                                    Automations
-                                    <span class="absolute inset-0"></span>
-                                </a>
-                                <p class="mt-1 text-gray-600">Build strategic funnels that will convert</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                        <a href="#" class="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100">
-                            <svg class="size-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                <path fill-rule="evenodd" d="M2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0Zm6.39-2.908a.75.75 0 0 1 .766.027l3.5 2.25a.75.75 0 0 1 0 1.262l-3.5 2.25A.75.75 0 0 1 8 12.25v-4.5a.75.75 0 0 1 .39-.658Z" clip-rule="evenodd" />
-                            </svg>
-                            Watch demo
-                        </a>
-                        <a href="#" class="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100">
-                            <svg class="size-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                <path fill-rule="evenodd" d="M2 3.5A1.5 1.5 0 0 1 3.5 2h1.148a1.5 1.5 0 0 1 1.465 1.175l.716 3.223a1.5 1.5 0 0 1-1.052 1.767l-.933.267c-.41.117-.643.555-.48.95a11.542 11.542 0 0 0 6.254 6.254c.395.163.833-.07.95-.48l.267-.933a1.5 1.5 0 0 1 1.767-1.052l3.223.716A1.5 1.5 0 0 1 18 15.352V16.5a1.5 1.5 0 0 1-1.5 1.5H15c-1.149 0-2.263-.15-3.326-.43A13.022 13.022 0 0 1 2.43 8.326 13.019 13.019 0 0 1 2 5V3.5Z" clip-rule="evenodd" />
-                            </svg>
-                            Contact sales
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <a href="#" class="text-sm/6 font-semibold text-gray-900">Features</a>
-            <a href="#" class="text-sm/6 font-semibold text-gray-900">Marketplace</a>
-            <a href="#" class="text-sm/6 font-semibold text-gray-900">Company</a>
-        </div>
-        <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="#" class="text-sm/6 font-semibold text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
-        </div>
-    </nav>
-    <!-- Mobile menu, show/hide based on menu open state. -->
-    <div class="lg:hidden" role="dialog" aria-modal="true">
-        <!-- Background backdrop, show/hide based on slide-over state. -->
-        <div class="fixed inset-0 z-10"></div>
-        <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div class="flex items-center justify-between">
-                <a href="#" class="-m-1.5 p-1.5">
-                    <span class="sr-only">Your Company</span>
-                    <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="">
-                </a>
-                <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
-                    <span class="sr-only">Close menu</span>
-                    <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <div class="mt-6 flow-root">
-                <div class="-my-6 divide-y divide-gray-500/10">
-                    <div class="space-y-2 py-6">
-                        <div class="-mx-3">
-                            <button type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false">
-                                Product
-                                <!--
-                  Expand/collapse icon, toggle classes based on menu open state.
-
-                  Open: "rotate-180", Closed: ""
-                -->
-                                <svg class="size-5 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                                    <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                            <!-- 'Product' sub-menu, show/hide based on menu state. -->
-                            <div class="mt-2 space-y-2" id="disclosure-1">
-                                <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Analytics</a>
-                                <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Engagement</a>
-                                <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Security</a>
-                                <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Integrations</a>
-                                <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Automations</a>
-                                <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Watch demo</a>
-                                <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Contact sales</a>
-                            </div>
-                        </div>
-                        <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Features</a>
-                        <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Marketplace</a>
-                        <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Company</a>
-                    </div>
-                    <div class="py-6">
-                        <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body>
+    <div class="navLandingPage">
+        <?php include "../Layout/navbar/navbarIndex.php" ?>
     </div>
-</header>
+
+
+    <section id="home" class="section1" style="background-image: url(/assets/img/school.jpg); background-position: center; background-repeat: no-repeat; background-size: cover; background-attachment: fixed; ">
+        <div class="container-section1">
+            <h1 class="h1-section1" id="h1-section1-visible">Selamat Datang Di E-Jurnal PKL SMKN 1 Tanjunganom</h1>
+        </div>
+        <div class="pane" id="pane-visible"></div>
+        <div class="blackDisplay"></div>
+    </section>
+
+    <section id="home" class="section2" data-ignore-nav>
+        <img class="img-section2" id="img-section2-visible" src="\assets\vector\Questions-amico.png" alt="">
+        <div class="container-section2" id="container-section2-visible">
+            <h1 class="h1-section2">Apa Itu E-Jurnal PKL?</h1>
+            <p class="p-section2">E-Jurnal PKL merupakan sebuah Website yang digunakan dalam memudahkan pendataan siswa PKL dan perekapan jurnal PKL di SMKN 1 Tanjunganom yang sebelumnya manual. Siswa dapat langsung mencetak Sertifikat PKL dalam bentuk soft file, mengisi kegiatan PKL. Website ini memudahkan guru dan DU/DI dalam memonitoring dan memberi nilai kepada Siswa yang melakukan PKL. </p>
+        </div>
+    </section>
+
+    <section id="home" class="section3" data-ignore-nav>
+        <div class="container-secction3" id="container-section3-visible">
+            <h1 class="h1-section3">Aplikasi Mobile E-Jurnal untuk Siswa</h1>
+            <p class="p-section3">Selain Web, kita juga menyediakan Aplikasii mobile untuk Siswa SMK Negeri 1 Tanjunganom. Tujuan dari aplikasi ini untuk memudahkan siswa dalam mengisi jurnal secara fleksibel dengan fitur pengisian jurnal harian serta antarmuka aplikasi yang sederhana dan mudah digunakan</p>
+            <a href="resource/file/latanzaApk.exe" class="btn-section3" download>Unduh Aplikasi</a>
+        </div>
+        <img class="img-section3" id="img-section3-visible" src="\assets\img\mobilelandingpage2.png" alt="">
+    </section>
+
+    <section id="Informasi" class="section4">
+        <h1 class="h1-section4" id="h1-section4-visible">INFORMASI</h1>
+        <p class="p-section4" id="p-section4-visible">1) Tata Tertib PKL<br>
+            1. Mematuhi segala peraturan yang ditetapkan oleh Dunia Industri/Bengkel dan Sekolah<br>
+            2. Menjaga etika dan sopan santun sebagai pelajar.<br>
+            3. Memberi salam ketika datang dan berpamitan waktu pulang ijin apabila berhalangan hadir. <br>
+            4. Bertanggung jawab terhadap tugas yang diberikan dan selalu meminta bimbingan dari pembimbing industri dan sekolahan. <br>
+            5. Mengisi Jurnal<br>
+            2) Siswa dilarang <br>
+            1. Tidak masuk tanpa sepengetahuan pihak industri bisa pihak sekolah <br>
+            2. Pindah tempat praktek tanpa ijin. <br>
+            3) Sanksi sanksi <br>
+            1. Peringatan secara lisan diberikan kepada siswa dari pembimbing sekolah bilamana selama 4 hari praktikan atau siswa tidak masuk. <br>
+            2. Peringatan secara tertulis diberikan bilamana siswa selama 6 hari tidak masuk 3. Pengurangan Nilai Praktik diberikan kepada siswa yang mengikuti tata tertib prakerin, <br>
+            4. Penarikan dari dunia industri atau diskualifikasi, diberikan kepada siswa yang selama 15 hari tidak mengikuti kegiatan praktik, <br>
+            5. Dikeluarkan dari sekolah bilamana tidak masuk lebih dari 25 hari dan melanggar tata tertib dunia industri dan sekolah.</p>
+    </section>
+
+    <section id="FiturUtama" class="section5">
+        <h1 class="h1-section5" id="h1-section5-visible">FITUR UTAMA</h1>
+        <div class="container-section5" id="container-section5-visible">
+            <div class="fitur">
+                <div class="container-fitur">
+                    <img class="img-fitur" src="\assets\vector\Certification-cuate.png" alt="">
+                    <div class="content-fitur">
+                        <h2 class="h2-fitur">CETAK SERTIFIKAT</h2>
+                        <p class="p-fitur">Siswa dapat mendownload sertifikat saat sudah menyelesaikan PKL</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fitur">
+                <div class="container-fitur">
+                    <img class="img-fitur" src="\assets\vector\Checklist-pana.png" alt="">
+                    <div class="content-fitur">
+                        <h2 class="h2-fitur">TAMBAH KEGIATAN PKL</h2>
+                        <p class="p-fitur">Siswa dapat mendownload sertifikat saat sudah menyelesaikan PKL</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fitur">
+                <div class="container-fitur">
+                    <img class="img-fitur" src="\assets\vector\Profile-data-cuate.png" alt="">
+                    <div class="content-fitur">
+                        <h2 class="h2-fitur">LAPORAN PKL</h2>
+                        <p class="p-fitur">Siswa dapat mendownload sertifikat saat sudah menyelesaikan PKL</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="Profil" class="section6">
+        <h1 class="h1-section6" id="h1-section6-visible">PROFIL</h1>
+        <div class="container-section6">
+            <div class="content-section6">
+                <div class="name-section6" id="name-section6-visible">
+                    <a class="link-section6" href="https://smkn1tanjunganom.sch.id/">SMKN 1 Tanjunganom</a>
+                    <p class="p-section6">Jl. Kartini No. 1, Tanjunganom, Bulakrejo, Warujayeng, Nganjuk, Kabupaten Nganjuk, Jawa Timur 64419</p>
+                </div>
+
+                <div class="contact-section6" id="contact-section6-visible">
+                    <h1 class="contact">Contact</h1>
+                    <div class="email-contact">
+                        <img src="\assets\logo\email.png" alt="">
+                        <p class="p-contact">EmailSMEKTA@gmail.com</p>
+                    </div>
+
+                    <div class="telepon-contact">
+                        <img src="\assets\logo\phone-call.png" alt="">
+                        <p class="p-contact">EmailSMEKTA@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="maps-section6">
+                <div class="maps" id="maps-section6-visible">
+                    <div class="content-maps">
+                        <img src="\assets\logo\gps2.png" alt="">
+                        <p class="p-maps">Lokasi Sekolah</p>
+                    </div>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.6187426177285!2d112.01835587593007!3d-7.616397575300634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7848ea860e8cab%3A0x30eb0b6313818f1d!2sSMK%20Negeri%201%20Tanjunganom!5e0!3m2!1sid!2sid!4v1730279284627!5m2!1sid!2sid"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <?php include "../Layout/footer.php" ?>
+
+</body>
+
+
+</html>

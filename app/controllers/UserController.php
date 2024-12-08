@@ -19,6 +19,7 @@ class UserController
                 break;
         }
     }
+
     public function index($queryParams)
     {
         $flash = $_SESSION['flash'] ?? null; // Pesan flash jika ada
