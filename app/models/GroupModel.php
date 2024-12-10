@@ -131,6 +131,61 @@ class GroupModel
         }
     }
 
+    public static function getByMentor($id)
+    {
+        try {
+            $pdo = Database::getConnection();
+
+            // Query dasar
+            $query = "
+            SELECT 
+    groups.id AS id,
+    groups.date_start AS start,
+    groups.date_finish AS finish,
+    COALESCE(idukas.name, 'Kosong') AS Inama,
+    COALESCE(idukas.address, '') AS alamat,
+    COALESCE(mentors.name, 'Kosong') AS Mnama,
+    COALESCE(idukas.mentor, 'Kosong') AS MInama,
+    COALESCE(students.expertise, '') AS prodi,
+    COALESCE(students.name, '') AS Sname,
+    COUNT(students.id) AS total_students
+FROM groups
+LEFT JOIN idukas ON groups.iduka_id = idukas.id
+LEFT JOIN mentors ON groups.nip = mentors.id
+LEFT JOIN students ON groups.id = students.group_id
+WHERE mentors.user_id = :id
+GROUP BY 
+    groups.id, 
+    groups.date_start, 
+    groups.date_finish, 
+    idukas.name, 
+    idukas.address, 
+    mentors.name, 
+    idukas.mentor
+ORDER BY idukas.name ASC;
+        ";
+
+            // Persiapan query
+            $stmt = $pdo->prepare($query);
+
+            $stmt->bindValue(':id', $id);
+
+            // Eksekusi query
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Menyimpan pesan error dalam session
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan saat mengambil data: ' . $e->getMessage(),
+            ];
+
+            // Mengembalikan array kosong jika terjadi error
+            return [];
+        }
+    }
+
 
     public function isGroupExist($id)
     {

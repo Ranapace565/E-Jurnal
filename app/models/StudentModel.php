@@ -159,6 +159,81 @@ class StudentModel
         }
     }
 
+    public static function getPerMentor($id, $search = '', $limit = 10, $offset = 0)
+    {
+        try {
+            $pdo = Database::getConnection();
+            $query = "
+            SELECT 
+                students.id AS nis,
+                COALESCE(students.name, '') AS nama, 
+                COALESCE(students.expertise, '') AS prodi, 
+                COALESCE(idukas.name, '') AS dudi, 
+                COALESCE(mentors.name, '') AS pembimbing, 
+                COALESCE(users.username, '') AS username,
+                COALESCE(students.sex, '') AS kelamin,
+                COALESCE(students.address, '') AS alamat,
+                CASE 
+                    WHEN students.id LIKE :search THEN 6
+                    WHEN students.name LIKE :search THEN 5
+                    WHEN students.expertise LIKE :search THEN 4
+                    WHEN idukas.name LIKE :search THEN 3
+                    WHEN mentors.name LIKE :search THEN 2
+                    WHEN users.username LIKE :search THEN 1
+                    ELSE 7
+                END AS relevance
+            FROM students
+            LEFT JOIN groups ON students.group_id = groups.id
+            LEFT JOIN idukas ON groups.iduka_id = idukas.id
+            LEFT JOIN mentors ON groups.nip = mentors.id
+            LEFT JOIN users ON idukas.user_id = users.id
+            WHERE mentors.user_id = :id
+        ";
+
+            if (!empty($search)) {
+                $query .= "
+                AND (
+                    students.id LIKE :search OR
+                    students.name LIKE :search OR
+                    students.expertise LIKE :search OR
+                    idukas.name LIKE :search OR
+                    mentors.name LIKE :search OR
+                    users.username LIKE :search
+                )
+            ";
+            }
+
+            $query .= "
+            ORDER BY relevance DESC, students.id ASC
+            LIMIT :limit OFFSET :offset
+        ";
+
+            $stmt = $pdo->prepare($query);
+
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+            if (!empty($search)) {
+                $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+            }
+
+            $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT); // Cast to ensure int
+            $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT); // Cast to ensure int
+
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Menyimpan pesan error dalam session
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan saat mengambil data: ' . $e->getMessage()
+            ];
+
+            // Mengembalikan array kosong jika terjadi error
+            return [];
+        }
+    }
+
 
     public static function getProdi()
     {

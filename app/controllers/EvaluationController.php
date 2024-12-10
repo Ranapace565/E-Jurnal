@@ -10,6 +10,9 @@ class EvaluationController
             case 'SHOW':
                 $this->show();
                 break;
+            case 'SHOWM':
+                $this->showM();
+                break;
             case 'CREATE':
                 $this->update();
                 break;
@@ -41,6 +44,20 @@ class EvaluationController
 
         $flash = $_SESSION['flash'] ?? null;
         require_once __DIR__ . '/../views/dudi/evaluation/Index.php';
+    }
+    public function showM()
+    {
+        $nis = $_SESSION['nis'];
+
+        $siswa = new StudentModel();
+        $siswa = $siswa->getById($nis);
+
+        $evaluation = EvaluationModel::PracticeByStd($nis);
+        $learnings = EvaluationModel::LearningStd($evaluation['id']);
+        $precences = EvaluationModel::PresenceStd($evaluation['id']);
+
+        $flash = $_SESSION['flash'] ?? null;
+        require_once __DIR__ . '/../views/mentor/evaluation/Index.php';
     }
 
     public function show2()

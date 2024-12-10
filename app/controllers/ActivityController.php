@@ -15,6 +15,9 @@ class ActivityController
             case 'SHOW':
                 $this->indexDudi([]);
                 break;
+            case 'SHOWM':
+                $this->indexMentor([]);
+                break;
             case 'UPDATE':
                 $this->update();
                 break;
@@ -96,6 +99,41 @@ class ActivityController
         $flash = $_SESSION['flash'] ?? null;
 
         require_once __DIR__ . '/../views/dudi/activity/Index.php';
+    }
+
+    public function indexMentor($queryParams)
+    {
+        $id = $_SESSION['nis'];
+
+        $search = $queryParams['search'] ?? '';
+
+        $approve = $queryParams['approve'] ?? '';
+
+        $currentPage = isset($queryParams['page']) ? (int)$queryParams['page'] : 1;
+
+        $limit = 10;
+        $offset = ($currentPage - 1) * $limit;
+
+
+        $activitys = ActivityModel::getByDudi($id, $search, $approve, $limit, $offset);
+
+        $totalApproved = ActivityModel::countByTop($id, 1); // Approve = 1 (diterima)
+        $totalRejected = ActivityModel::countByTop($id, 2); // Approve = 2 (ditolak)
+        $totalPending = ActivityModel::countByTop($id, 3);  // Approve = 0 (proses)
+
+
+        $totalActivitys = ActivityModel::countAll($id);
+
+        // echo $totalActivitys;
+
+
+        $totalPages = ceil($totalActivitys / $limit);
+
+        // $prodis = ActivityModel::getProdi();
+
+        $flash = $_SESSION['flash'] ?? null;
+
+        require_once __DIR__ . '/../views/mentor/activity/Index.php';
     }
 
     // public function show()

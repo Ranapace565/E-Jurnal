@@ -1,217 +1,182 @@
 <?php
-// LoginController.php
 header('Content-Type: application/json');
 require_once __DIR__ . '/../../config/database.php';
+
 class ActivityController
 {
-
     public function activityroute()
     {
+        // Mendapatkan method dan URI dari request
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         $requestUri = $_SERVER['REQUEST_URI'];
 
+        // Menyertakan middleware
         require_once __DIR__ . '/../middleware/ApiMiddleware.php';
 
+        // Handle request berdasarkan request method
         switch ($requestMethod) {
-            case 'POST':
-                if ($requestUri === '/api/activity') {
-                    $this->createActivity();
-                }
-                break;
-
-            case 'PUT':
-                if (preg_match('/\/api\/activity\/update\/(\d+)/', $requestUri, $matches)) {
-                    AuthMiddleware::check();
-                    $activityid = $matches[1];
-                    $this->updateActivity($activityid);
-                }
-                break;
-
-            case 'DELETE':
-                if (preg_match('/\/api\/activity\/delete\/(\d+)/', $requestUri, $matches)) {
-                    AuthMiddleware::check();
-                    $activityid = $matches[1];
-                    $this->deleteActivity($activityid);
-                }
-                break;
-
             case 'GET':
-                if ($requestUri === '/api/activities') {
-                    AuthMiddleware::check();
-                    $this->getActivities();
+                if (strpos($requestUri, '/api/activity/mobile') !== false) {
+                    $this->getActivitiesMobile();
+                } else {
+                    $this->handleGet($requestUri);
                 }
-                if (preg_match('/\/api\/activity\/(\d+)/', $requestUri, $matches)) {
-                    AuthMiddleware::check();
-                    $activityid = $matches[1];
-                    $this->getActivityDetails($activityid);
-                }
+                break;
+
+            case 'POST':
+                $this->handlePost($requestUri);
                 break;
 
             default:
-                echo json_encode(["error-function" => "Fungsi Not found :( "]);
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Method not allowed']);
+                http_response_code(405);
                 break;
         }
     }
 
-    function createActivity()
+    // Method untuk handle request GET
+    private function handleGet($requestUri)
     {
-        // 
-        $input = json_decode(file_get_contents("php://input"), true);
+        header('Content-Type: application/json');
+        echo json_encode(['message' => "GET request berhasil pada URI: $requestUri"]);
+    }
 
-        if (!$input) {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Input JSON tidak valid']);
+    // Method untuk handle request POST
+    private function handlePost($requestUri)
+    {
+        $postData = file_get_contents('php://input');
+        $decodedData = json_decode($postData, true);
+
+        header('Content-Type: application/json');
+        echo json_encode([
+            'message' => "POST request berhasil pada URI: $requestUri",
+            'data' => $decodedData,
+        ]);
+    }
+
+   <?php
+header('Content-Type: application/json');
+require_once __DIR__ . '/../../config/database.php';
+
+
+class ActivityController
+{
+    public function activityroute()
+    {
+        // Mendapatkan method dan URI dari request
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        $requestUri = $_SERVER['REQUEST_URI'];
+
+        // Menyertakan middleware
+        require_once __DIR__ . '/../middleware/ApiMiddleware.php';
+
+        // Handle request berdasarkan request method
+        switch ($requestMethod) {
+            case 'GET':
+                if (strpos($requestUri, '/api/activity/mobile') !== false) {
+                    $this->getActivitiesMobile();
+                } else {
+                    $this->handleGet($requestUri);
+                }
+                break;
+
+            case 'POST':
+                $this->handlePost($requestUri);
+                break;
+
+            default:
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Method not allowed']);
+                http_response_code(405);
+                break;
+        }
+    }
+
+    // Method untuk handle request GET
+    private function handleGet($requestUri)
+    {
+        header('Content-Type: application/json');
+        echo json_encode(['message' => "GET request berhasil pada URI: $requestUri"]);
+    }
+
+    // Method untuk handle request POST
+    private function handlePost($requestUri)
+    {
+        $postData = file_get_contents('php://input');
+        $decodedData = json_decode($postData, true);
+
+        header('Content-Type: application/json');
+        echo json_encode([
+            'message' => "POST request berhasil pada URI: $requestUri",
+            'data' => $decodedData,
+        ]);
+    }
+
+    public function getActivitiesMobile()
+    {
+        // Mendapatkan koneksi PDO dari kelas Database
+        $db = Database::getConnection();
+
+        // Ambil username dari request
+        $username = $_GET['username'];
+
+        if (!$username) {
+            echo json_encode(['error' => 'Username tidak ditemukan']);
             return;
         }
 
-        $date = $input['date'] ?? '';
-        $activity = $input['activity'] ?? '';
-        $description = $input['description'] ?? '';
-        $approve = $input['approve'] ?? 0;
-        $week = $input['week'] ?? '';
-        $nis = $this->findstudent();
-
-        if (empty($date) || empty($activity) || empty($week)) {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Data date, activity, week, dan nis harus diisi']);
-            return;
-        }
-
-        try {
-            // Koneksi ke database dan persiapan query
-            $pdo = Database::getConnection();
-            $stmt = $pdo->prepare("INSERT INTO activitys (date, activity, description, approve, week, nis) VALUES (:date, :activity, :description, :approve, :week, :nis)");
-            $stmt->bindParam(':date', $date);
-            $stmt->bindParam(':activity', $activity);
-            $stmt->bindParam(':description', $description);
-            $stmt->bindParam(':approve', $approve, PDO::PARAM_INT);
-            $stmt->bindParam(':week', $week, PDO::PARAM_INT);
-            $stmt->bindParam(':nis', $nis, PDO::PARAM_INT);
-
-            if ($stmt->execute()) {
-                http_response_code(201);
-                echo json_encode(['success' => true, 'message' => 'Aktivitas berhasil ditambahkan']);
-            } else {
-                http_response_code(500);
-                echo json_encode(['success' => false, 'message' => 'Gagal menambahkan aktivitas']);
-            }
-        } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode(['success' => false, 'message' => 'Terjadi kesalahan pada server', 'error' => $e->getMessage()]);
-        }
-    }
-
-    function updateActivity($id)
-    {
-        $input = json_decode(file_get_contents("php://input"), true);
-
-        if (!$input) {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Input JSON tidak valid']);
-            return;
-        }
-
-        $date = $input['date'] ?? '';
-        $activity = $input['activity'] ?? '';
-        $description = $input['description'] ?? '';
-        $approve = $input['approve'] ?? 0;
-        $week = $input['week'] ?? '';
-        // $nis = $input['nis'] ?? '';
-
-        $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("UPDATE activitys SET date = :date, activity = :activity, description = :description, approve = :approve, week = :week WHERE id = :id");
-        $stmt->bindParam(':date', $date);
-        $stmt->bindParam(':activity', $activity);
-        $stmt->bindParam(':description', $description);
-        $stmt->bindParam(':approve', $approve, PDO::PARAM_INT);
-        $stmt->bindParam(':week', $week, PDO::PARAM_INT);
-        // $stmt->bindParam(':nis', $nis, PDO::PARAM_INT);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            http_response_code(200);
-            echo json_encode(['success' => true, 'message' => 'Aktivitas berhasil diperbarui']);
-        } else {
-            http_response_code(500);
-            echo json_encode(['success' => false, 'message' => 'Gagal memperbarui aktivitas']);
-        }
-    }
-
-    function deleteActivity($id)
-    {
-        $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("DELETE FROM activitys WHERE id = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-
-        if ($stmt->execute()) {
-            http_response_code(200);
-            echo json_encode(['success' => true, 'message' => 'Aktivitas berhasil dihapus']);
-        } else {
-            http_response_code(500);
-            echo json_encode(['success' => false, 'message' => 'Gagal menghapus aktivitas']);
-        }
-    }
-
-    function getActivities()
-    {
-        $pdo = Database::getConnection();
-        $stmt = $pdo->query("SELECT * FROM activitys ORDER BY create_at DESC");
-        $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        http_response_code(200);
-        echo json_encode(['success' => true, 'data' => $activities]);
-    }
-
-    function getActivityDetails($id)
-    {
-        $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("SELECT * FROM activitys WHERE id = :id");
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        // Query untuk mendapatkan id dari tabel users berdasarkan username
+        $query = "SELECT id FROM users WHERE username = :username LIMIT 1";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->execute();
-        $activity = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($activity) {
-            http_response_code(200);
-            echo json_encode(['success' => true, 'data' => $activity]);
-        } else {
-            http_response_code(404);
-            echo json_encode(['success' => false, 'message' => 'Aktivitas tidak ditemukan']);
-        }
-    }
-
-    function findstudent()
-    {
-        $headers = getallheaders();
-        $authorizationHeader = $headers['Authorization'] ?? '';
-
-        if (strpos($authorizationHeader, 'Bearer ') === 0) {
-            $token = substr($authorizationHeader, 7);
-        } else {
-            $token = '';
-        }
-
-        if (empty($token)) {
-            http_response_code(401);
-            echo json_encode(['success' => false, 'message' => 'Token tidak ditemukan']);
-            exit();
-        }
-
-        // Koneksi ke database
-        $pdo = Database::getConnection();
-
-        // Verifikasi pengguna berdasarkan token dan mendapatkan id student
-        $stmt = $pdo->prepare("SELECT students.id FROM students JOIN users ON students.user_id = users.id WHERE users.token = :token");
-        $stmt->bindParam(':token', $token);
-        $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Mengembalikan nilai id jika ditemukan
-        if ($user) {
-            return $user['id'];
+        if (!$user) {
+            echo json_encode(['error' => 'User tidak ditemukan']);
+            return;
+        }
+
+        // Simpan user_id
+        $user_id = $user['id'];
+
+        // Query untuk mendapatkan nis dari tabel students berdasarkan user_id
+        $query = "SELECT user_id FROM students WHERE user_id = :user_id LIMIT 1";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $student = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$student) {
+            echo json_encode(['error' => 'NIS tidak ditemukan untuk user_id ini']);
+            return;
+        }
+
+        // Simpan nis
+        $user_id = $student['user_id'];
+
+        // Query untuk mengambil kegiatan berdasarkan nis
+        $query = "
+            SELECT id, date, activity, description, approve
+            FROM activitys 
+            WHERE nis = :user_id
+        ";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $activities = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Mengembalikan hasil kegiatan
+        if ($activities) {
+            echo json_encode(['success' => true, 'data' => $activities]);
         } else {
-            http_response_code(401);
-            echo json_encode(['success' => false, 'message' => 'Pengguna tidak ditemukan']);
-            exit();
+            echo json_encode(['error' => 'Tidak ada kegiatan ditemukan']);
         }
     }
+}
+
 }

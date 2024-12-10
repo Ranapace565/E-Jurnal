@@ -92,7 +92,7 @@ class UserController
                 header('Location: /dudi/kelompok');
                 break;
             case 'mentor':
-                header('Location: /mentor/dashboard');
+                header('Location: /pembimbing/kelompok');
                 break;
             default:
                 header('Location: /login');

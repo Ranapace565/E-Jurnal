@@ -78,4 +78,26 @@ class MentorController
         $this->index([]);
         exit;
     }
+
+    public function group()
+    {
+        $id = $_SESSION['user']['id'];
+        $data = new GroupModel;
+        $Groups = $data->getByMentor($id);
+
+
+        require_once __DIR__ . '/../views/mentor/group/Index.php';
+    }
+
+    public function show()
+    {
+        $id = $_SESSION['user']['id'];
+        $data = (new DUDIModel())->show($id);
+
+        $file = (new ProfileModel())->findFoto($id);
+
+        $flash = $_SESSION['flash'] ?? null;
+
+        require_once __DIR__ . '/../views/dudi/profile/Index.php';
+    }
 }

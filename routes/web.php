@@ -17,6 +17,7 @@ require_once __DIR__ . '/../app/routes/dudiRoutes.php';
 require_once __DIR__ . '/../app/routes/mentorRoutes.php';
 require_once __DIR__ . '/../app/routes/studentRoutes.php';
 require_once __DIR__ . '/../app/routes/loginRoutes.php';
+require_once __DIR__ . '/../app/routes/mentorRoutes.php';
 // require_once __DIR__ . '/../app/routes/DudiRoutes.php';
 require_once __DIR__ . '/../app/routes/landingpageRoutes.php';
 
@@ -39,10 +40,10 @@ switch (true) {
         AuthMiddleware::checkAuth('dudi');
         handleDudiRoutes($path, $queryParams);
         break;
-    case preg_match('#^/mentor#', $path):
+    case preg_match('#^/pembimbing#', $path):
 
         AuthMiddleware::checkAuth('mentor');
-        handleAdminRoutes($path, $queryParams);
+        handleMentorRoutes($path, $queryParams);
         break;
     case preg_match('#^/siswa#', $path):
 

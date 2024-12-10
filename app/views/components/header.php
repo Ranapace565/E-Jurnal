@@ -7,7 +7,9 @@ $BASE_URL = 'http://e-jurnal.test:8080//'; // atau ganti sesuai dengan root URL 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin E-Jurnal</title>
+  <title>E-Jurnal</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/img/icon/logo smk.png">
 
   <link rel="stylesheet" href="<?php echo $BASE_URL; ?>assets/css/tailwind.css">
 

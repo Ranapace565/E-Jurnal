@@ -67,6 +67,15 @@ class DudiController
 
         require_once __DIR__ . '/../views/dudi/group/Index.php';
     }
+    public function group2()
+    {
+        $id = $_SESSION['user']['id'];
+        $data = new GroupModel;
+        $Groups = $data->getByDudi($id);
+
+
+        require_once __DIR__ . '/../views/dudi/group/Index.php';
+    }
 
     public function create()
     {

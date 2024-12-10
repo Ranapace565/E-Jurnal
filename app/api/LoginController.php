@@ -2,6 +2,7 @@
 // LoginController.php
 header('Content-Type: application/json');
 require_once __DIR__ . '/../../config/database.php';
+
 class LoginController
 {
 
@@ -11,6 +12,7 @@ class LoginController
         $requestUri = $_SERVER['REQUEST_URI'];
 
         require_once __DIR__ . '/../middleware/ApiMiddleware.php';
+
         switch ($requestMethod) {
             case 'POST':
                 if ($requestUri === '/api/login') {
@@ -32,6 +34,14 @@ class LoginController
                 }
                 break;
 
+            case 'GET':
+                // Handle username check
+                if (preg_match('/^\/api\/user\/checkUsername\/([^\/]+)$/', $requestUri, $matches)) {
+                    $username = $matches[1];
+                    $this->checkUsername($username);  // Call checkUsername method
+                }
+                break;
+
             default:
                 echo json_encode(["error-function" => "Fungsi Not found :( "]);
                 break;
@@ -49,6 +59,7 @@ class LoginController
             echo json_encode(['success' => false, 'message' => 'Input JSON tidak valid']);
             return;
         }
+
         // Validasi bahwa JSON mengandung 'username' dan 'password'
         $username = $input['username'] ?? '';
         $password = $input['password'] ?? '';
@@ -72,22 +83,11 @@ class LoginController
         // Cek pengguna berdasarkan username
         $stmt = $pdo->prepare("
         SELECT 
-                COALESCE(students.name, 'kosong') AS nama, 
-                COALESCE(students.id, 'kosong') AS nis, 
-                COALESCE(students.nisn, 'kosong') AS nisn,
-                COALESCE(students.born_place, 'kosong') AS tempat, 
-                COALESCE(students.born_date, 'kosong') AS tanggal, 
-                COALESCE(students.sex, 'kosong') AS kelamin, 
-                COALESCE(students.blood_type, 'kosong') AS darah, 
-                COALESCE(students.address, 'kosong') AS alamat, 
-                COALESCE(students.telp, 'kosong') AS telp,
-                COALESCE(students.health_note, 'kosong') AS catatan, 
-                COALESCE(students.parent_name, 'kosong') AS ortu,
-                COALESCE(students.parent_telp, 'kosong') AS telportu,
-                COALESCE(students.parent_address, 'kosong') AS alamatortu,
-                COALESCE(students.expertise, 'kosong') AS prodi, 
-                COALESCE(students.competence, 'kosong') AS kompetensi,  
-                COALESCE(groups.id, 'kosong') AS group_id,    
+                COALESCE(students.name, '') AS nama, 
+                COALESCE(students.id, '') AS nis, 
+                COALESCE(students.nisn, '') AS nisn,
+                COALESCE(students.expertise, '') AS prodi, 
+                COALESCE(groups.id, '') AS group_id,    
                 COALESCE(idukas.name, '') AS dudi,
                 COALESCE(idukas.address, '') AS alamatdudi,
                 COALESCE(idukas.mentor, '') AS pimpinan,
@@ -140,100 +140,57 @@ class LoginController
             'message' => 'Login berhasil',
             'token' => $token,
             'data' => [
-                'id' => $user['id'],
                 'nama' => $user['nama'],
                 'nis' => $user['nis'],
                 'nisn' => $user['nisn'],
-                'tempat' => $user['tempat'],
-                'tanggal' => $user['tanggal'],
-                'kelamin' => $user['kelamin'],
-                'darah' => $user['darah'],
-                'alamat' => $user['alamat'],
-                'telp' => $user['telp'],
-                'catatan' => $user['catatan'],
-                'ortu' => $user['ortu'],
-                'telportu' => $user['telportu'],
-                'alamatortu' => $user['alamatortu'],
                 'prodi' => $user['prodi'],
-                'kompetensi' => $user['kompetensi'],
+                'group_id' => $user['group_id'],
                 'dudi' => $user['dudi'],
-                'pimpinan' => $user['pimpinan'],
                 'alamatdudi' => $user['alamatdudi'],
+                'pimpinan' => $user['pimpinan'],
                 'pembimbing' => $user['pembimbing'],
                 'username' => $user['username'],
-                'role' => $user['role']
+                'role' => $user['role'],
+                'user_id' => $user['user_id'],
+                'password' => $user['password']
             ]
         ]);
     }
 
-    // Fungsi untuk menangani login
-    // function handleLogin()
-    // {
-    //     $username = $_POST['username'] ?? '';
-    //     $password = $_POST['password'] ?? '';
+    function checkUsername($username)
+{
+    // Validasi bahwa username tidak kosong
+    if (empty($username)) {
+        http_response_code(400);  // Bad Request jika username kosong
+        echo json_encode([
+            'success' => false,
+            'message' => 'Username harus diisi'
+        ]);
+        return;
+    }
 
-    //     // Validasi bahwa username dan password tidak kosong
-    //     if (empty($username)) {
-    //         http_response_code(400);
-    //         echo json_encode(['success' => false, 'message' => 'Username harus diisi']);
-    //         return;
-    //     }
+    // Koneksi ke database
+    $pdo = Database::getConnection();
 
-    //     if (empty($password)) {
-    //         http_response_code(400);
-    //         echo json_encode(['success' => false, 'message' => 'Password harus diisi']);
-    //         return;
-    //     }
+    // Cek apakah username sudah ada di database
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username = :username");
+    $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
 
-    //     // Panggil koneksi database
+    // Menyusun respons API untuk Android (ApiResponse)
+    $response = [
+        // Jika username sudah ada, success true
+        'success' => $count > 0, // true jika username sudah terdaftar
+        'message' => $count > 0 ? 'Username sudah terdaftar' : 'Username belum terdaftar, coba username lain'
+    ];
 
-    //     $pdo = Database::getConnection();
-    //     // Cek pengguna berdasarkan username
-    //     $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
-    //     $stmt->bindParam(':username', $username);
-    //     $stmt->execute();
-    //     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Kirim respons dalam format JSON
+    http_response_code(200); // OK response
+    echo json_encode($response);
+}
 
-    //     if (!$user) {
-    //         http_response_code(404);
-    //         echo json_encode(['success' => false, 'message' => 'User tidak ditemukan']);
-    //         return;
-    //     }
 
-    //     // Verifikasi password
-    //     if (!password_verify($password, $user['password'])) {
-    //         http_response_code(401);
-    //         echo json_encode(['success' => false, 'message' => 'Password salah']);
-    //         return;
-    //     }
-
-    //     // Cek apakah role adalah 'siswa'
-    //     if ($user['role'] !== 'siswa') {
-    //         http_response_code(403);
-    //         echo json_encode(['success' => false, 'message' => 'Akses hanya untuk siswa']);
-    //         return;
-    //     }
-
-    //     // Jika autentikasi berhasil, buat token
-    //     $token = bin2hex(random_bytes(16));
-    //     $stmt = $pdo->prepare("UPDATE users SET token = :token WHERE id = :id");
-    //     $stmt->bindParam(':token', $token);
-    //     $stmt->bindParam(':id', $user['id']);
-    //     $stmt->execute();
-
-    //     // Struktur respons yang konsisten untuk sukses
-    //     http_response_code(200);
-    //     echo json_encode([
-    //         'success' => true,
-    //         'message' => 'Login berhasil',
-    //         'token' => $token,
-    //         'data' => [
-    //             'id' => $user['id'],
-    //             'username' => $user['username'],
-    //             'role' => $user['role']
-    //         ]
-    //     ]);
-    // }
     function handleUpdatePassword()
     {
         // Mendapatkan input JSON
@@ -290,7 +247,6 @@ class LoginController
         echo json_encode(['success' => true, 'message' => 'Password berhasil diperbarui']);
     }
 
-
     function handleLogout()
     {
         $headers = getallheaders();
@@ -308,23 +264,12 @@ class LoginController
             return;
         }
 
-
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE token = :token");
+
+        $stmt = $pdo->prepare("UPDATE users SET token = NULL WHERE token = :token");
         $stmt->bindParam(':token', $token);
         $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user) {
-            $stmt = $pdo->prepare("UPDATE users SET token = NULL WHERE id = :id");
-            $stmt->bindParam(':id', $user['id']);
-            $stmt->execute();
-
-            http_response_code(200);
-            echo json_encode(['success' => true, 'message' => 'Logout berhasil']);
-        } else {
-            http_response_code(401);
-            echo json_encode(['success' => false, 'message' => 'Token tidak valid']);
-        }
+        echo json_encode(['success' => true, 'message' => 'User logged out']);
     }
 }

@@ -22,6 +22,9 @@ class StudentController
             case 'DETAIL':
                 $this->detail();
                 break;
+            case 'DETAILM':
+                $this->detail2();
+                break;
             case 'DELETE':
                 $this->delete();
                 break;
@@ -83,6 +86,27 @@ class StudentController
         $flash = $_SESSION['flash'] ?? null;
 
         require_once __DIR__ . '/../views/dudi/students/Index.php';
+    }
+
+    public function indexMentor($queryParams)
+    {
+        $id = $_SESSION['user']['id'];
+        $search = $queryParams['search'] ?? '';
+        $currentPage = isset($queryParams['page']) ? (int)$queryParams['page'] : 1;
+        $limit = 10;
+        $offset = ($currentPage - 1) * $limit;
+
+        $students = StudentModel::getPerMentor($id, $search, $limit, $offset,);
+
+        $totalStudents = StudentModel::countPerDudi($id, $search);
+
+        $totalPages = ceil($totalStudents / $limit);
+
+        $prodis = StudentModel::getProdi();
+
+        $flash = $_SESSION['flash'] ?? null;
+
+        require_once __DIR__ . '/../views/mentor/students/Index.php';
     }
 
     private function create()
@@ -178,6 +202,15 @@ class StudentController
             return;
         }
 
+        if (!empty($nisn) && strlen($nisn) < 10) {
+            $_SESSION['flash'] = [
+                'type' => 'error',
+                'message' => 'NISN siswa harus minimal 10 karakter!',
+            ];
+            $this->show();
+            return;
+        }
+
         $result = StudentModel::update($id, $nama, $tempat, $tanggal, $sex, $darah, $alamat, $telp, $catatan, $ortu, $ortutelp, $prodi, $kompetensi, $nisn, $group, $ortualamat);
 
         $this->show();
@@ -256,5 +289,19 @@ class StudentController
 
         $flash = $_SESSION['flash'] ?? null;
         require_once __DIR__ . '/../views/dudi/students/Show.php';
+    }
+    public function detail2()
+    {
+        // $id = $_SESSION['id'];
+        $id = $_POST['nis'];
+
+        $id = (new StudentModel())->getById($id);
+
+        $data = (new StudentModel())->show($id['user_id']);
+
+        $file = (new ProfileModel())->findFoto($id['user_id']);
+
+        $flash = $_SESSION['flash'] ?? null;
+        require_once __DIR__ . '/../views/mentor/students/Show.php';
     }
 }

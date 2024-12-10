@@ -15,6 +15,10 @@ class ObservationController
             case 'SHOW':
                 $this->show();
                 break;
+            case 'SHOWM':
+                $this->showM();
+                echo "ObservationController::handle() - SHOWM";
+                break;
             default:
                 http_response_code(405);
                 break;
@@ -47,6 +51,33 @@ class ObservationController
 
 
         require_once __DIR__ . '/../views/dudi/observasi/Index.php';
+    }
+    public function showM()
+    {
+        $nis = $_SESSION['nis'];
+
+        $siswa = new StudentModel();
+        $siswa = $siswa->getById($nis);
+
+        $student_id = $nis; // ID siswa yang ingin ditampilkan
+
+        $obser = new ObservationModel();
+
+        // Ambil data observasi
+        $observation = $obser->getObservation($student_id);
+
+        // Ambil data indikator berdasarkan observasi
+        $indicators = $obser->getIndicators($observation['id']);
+
+        // Ambil data indicatories berdasarkan semua `indicators_id`
+        $indicator_ids = array_column($indicators, 'id'); // Dapatkan semua ID indikator
+        $indicatories = $obser->getIndictories($indicator_ids);
+
+        // Ambil catatan berdasarkan observasi
+        $notes = $obser->getNotes($observation['id']);
+
+
+        require_once __DIR__ . '/../views/mentor/observasi/Index.php';
     }
 
     public function showStudent()

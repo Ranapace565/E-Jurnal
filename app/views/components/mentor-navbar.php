@@ -9,7 +9,7 @@
 <!-- <div class="min-h-full"> -->
 <?php $idU = $_SESSION['user']['id'];
 $foto = (new ProfileModel())->findFoto($idU);
-$username = (new StudentModel())->show($idU); ?>
+$username = (new DudiModel())->show($idU); ?>
 
 <nav class="bg-gray-800" x-data="{ isOpen: false }">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -18,15 +18,13 @@ $username = (new StudentModel())->show($idU); ?>
                 <div class="shrink-0">
                     <img class="size-10" src="/public/img/icon/icon.png" alt="Your Company">
                 </div>
-                <!-- <link rel="icon" type="image/png" sizes="32x32" href="/public/img/icon/logo smk.png"> -->
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                         <a href="#" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" aria-current="page">Dashboard</a>
-                        <a href="/siswa/kegiatan" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Kegiatan</a>
-                        <a href="/siswa/observasi" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Observasi</a>
-                        <a href="/siswa/penilaian" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Penilaian</a>
-                        <!-- <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Reports</a> -->
+                        <a href="/pembimbing/kelompok" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Kelompok</a>
+                        <a href="/pembimbing/siswa" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Siswa</a>
+                        <!-- <a href="/pembimbing/siswa" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Siswa</a> -->
                     </div>
                 </div>
             </div>
@@ -40,13 +38,11 @@ $username = (new StudentModel())->show($idU); ?>
                         </svg>
                     </button>
 
-                    <!-- Profile dropdown -->
                     <div class="relative ml-3">
                         <div>
                             <button type="button" @click="isOpen = !isOpen" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <span class="absolute -inset-1.5"></span>
                                 <span class="sr-only">Open user menu</span>
-                                <!-- <img class="size-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> -->
                                 <img id="image" src="<?= htmlspecialchars($foto['file_path']); ?>" alt="Default Image" class="size-8 rounded-full object-cover" />
                                 <svg id="placeholder-icon" class="size-8 rounded-full text-gray-300 hidden"
                                     viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -57,16 +53,6 @@ $username = (new StudentModel())->show($idU); ?>
                             </button>
                         </div>
 
-                        <!--
-                Dropdown menu, show/hide based on menu state.
-
-                Entering: "transition ease-out duration-100"
-                  From: "transform opacity-0 scale-95"
-                  To: "transform opacity-100 scale-100"
-                Leaving: "transition ease-in duration-75"
-                  From: "transform opacity-100 scale-100"
-                  To: "transform opacity-0 scale-95"
-              -->
                         <div x-show="isOpen"
                             x-transition:enter="transition ease-out duration-100 transform"
                             x-transition:enter-start="opacity-0 scale-95"
@@ -75,7 +61,7 @@ $username = (new StudentModel())->show($idU); ?>
                             x-transition:leave-start="opacity-100 scale-100"
                             x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                             <!-- Active: "bg-gray-100 outline-none", Not Active: "" -->
-                            <a href="/siswa/profile" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Profile</a>
+                            <a href="/pembimbing/profile" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Profile</a>
                             <!-- <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a> -->
 
                             <form action="/login" method="POST" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">
@@ -111,15 +97,15 @@ $username = (new StudentModel())->show($idU); ?>
         <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" aria-current="page">Dashboard</a>
-            <a href="/siswa/kegiatan" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Kegiatan</a>
-            <a href="/siswa/observasi" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Observasi</a>
-            <a href="/siswa/penilaian" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Penilaian</a>
-            <!-- <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Reports</a> -->
+            <a href="/pembimbing/kelompok" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Kelompok</a>
+            <!-- <a href="/dudi/observasi" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Observasi</a>
+            <a href="/dudi/penilaian" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Penilaian</a> -->
+            <a href="/pembimbing/siswa" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Siswa</a>
+            <a href="/pembimbing/siswa" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Siswa</a>
         </div>
         <div class="border-t border-gray-700 pb-3 pt-4">
             <div class="flex items-center px-5">
                 <div class="shrink-0">
-                    <!-- <img class="size-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> -->
                     <img id="image" src="<?= htmlspecialchars($foto['file_path']); ?>" alt="Default Image" class="size-10 rounded-full object-cover" />
                     <svg id="placeholder-icon" class=" text-gray-300 hidden size-10 rounded-full"
                         viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -141,7 +127,7 @@ $username = (new StudentModel())->show($idU); ?>
                 </button>
             </div>
             <div class="mt-3 space-y-1 px-2">
-                <a href="/siswa/profile" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white" role="menuitem" tabindex="-1" id="user-menu-item-0">Profile</a>
+                <a href="/pembimbing/profile" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white" role="menuitem" tabindex="-1" id="user-menu-item-0">Profile</a>
                 <!-- <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Your Profile</a> -->
                 <!-- <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</a> -->
 
