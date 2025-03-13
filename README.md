@@ -1,2 +1,3 @@
 # E-Jurnal
- Jurnal PKL Elektronik SMKN 1 Nganjuk
+ Jurnal PKL Elektronik SMKN 1 Tanjunganom
+ 
